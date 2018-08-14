@@ -3,6 +3,8 @@ package cww.world.mapper.user;
 import cww.world.pojo.po.user.UserPO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface UserPOMapper {
     int deleteByPrimaryKey(Integer id);
@@ -16,4 +18,6 @@ public interface UserPOMapper {
     int updateByPrimaryKeySelective(UserPO record);
 
     int updateByPrimaryKey(UserPO record);
+
+    List<UserPO> listUserInfo();
 }

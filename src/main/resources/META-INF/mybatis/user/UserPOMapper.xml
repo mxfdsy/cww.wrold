@@ -220,4 +220,12 @@
       updated_by = #{updatedBy,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="listUserInfo" resultType="cww.world.pojo.po.user.UserPO">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM
+    tnt_biz_hello_user_account
+    where  1 = 1
+  </select>
 </mapper>
