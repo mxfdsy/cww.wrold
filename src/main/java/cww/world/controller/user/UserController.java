@@ -21,4 +21,9 @@ public class UserController {
         model.addAttribute("userList", userService.userList());
         return "/demo/list2";
     }
+    @RequestMapping("/index")
+    public String index(Model model) throws Exception {
+        return "/demo/test3";
+    }
+
 }
