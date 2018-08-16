@@ -1,33 +1,53 @@
 package cww.world.pojo.po.user;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import cww.world.common.validate.group.Insert;
+import cww.world.common.validate.group.Update;
+
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
 public class UserPO implements Serializable {
+    @JSONField(name = "id")
     private Integer id;
 
+    @JSONField(name = "userUid")
     private Long userUid;
 
+    @JSONField(name = "name")
     private String name;
 
+    @NotNull(message = "登陆名不能为空",groups = Insert.class)
+    @JSONField(name = "loginName")
     private String loginName;
 
+    @NotNull(message = "密码不能为空",groups ={Insert.class,Update.class} )
+    @JSONField(name = "password")
     private String password;
 
+    @JSONField(name = "phone")
     private String phone;
 
+    @JSONField(name = "status")
     private String status;
 
+    @JSONField(name = "gender")
     private String gender;
 
+    @JSONField(name = "email")
     private String email;
 
+    @JSONField(name = "wechatNo")
     private String wechatNo;
 
+    @JSONField(name = "identity")
     private String identity;
 
+    @JSONField(name = "memo")
     private String memo;
 
+    @JSONField(name = "createdAt")
     private Date createdAt;
 
     private Date updatedAt;
