@@ -21,5 +21,4 @@ public class EntityValidator {
         vr.forEach((cv) -> r.addErrorMessage(cv.getMessage()));
         return r;
     }
-
 }

@@ -1,6 +1,8 @@
 package cww.world.controller.login;
 
 import com.alibaba.fastjson.JSONObject;
+import cww.world.common.constant.BaseCode;
+import cww.world.common.exception.BaseException;
 import cww.world.common.validate.EntityValidator;
 import cww.world.common.validate.ValidateResult;
 import cww.world.common.validate.group.Insert;
@@ -27,7 +29,7 @@ public class LoginController {
         UserPO request = JSONObject.parseObject(payload, UserPO.class);
         ValidateResult validateResult = EntityValidator.validate(request, Insert.class);
         if (validateResult.hasError()) {
-              validateResult.getErrorMessages();
+            throw new BaseException(BaseCode.INVALID_ARGUMENT,validateResult.getErrorMessages());
         }
         return "";
     }
