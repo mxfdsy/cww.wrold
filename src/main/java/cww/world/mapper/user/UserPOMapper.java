@@ -2,6 +2,7 @@ package cww.world.mapper.user;
 
 import cww.world.pojo.po.user.UserPO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface UserPOMapper {
     int updateByPrimaryKey(UserPO record);
 
     List<UserPO> listUserInfo();
+
+    UserPO countUesrInfoByLoginName(@Param("loginName") String loginName);
 }

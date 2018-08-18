@@ -1,6 +1,8 @@
 package cww.world.service.user;
 
 import cww.world.pojo.po.user.UserPO;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -9,4 +11,5 @@ import java.util.List;
 public interface UserService {
     List<UserPO> userList();
 
+    String login(UserPO loginUser, HttpServletRequest request);
 }

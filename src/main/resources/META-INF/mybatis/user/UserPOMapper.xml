@@ -228,4 +228,17 @@
     tnt_biz_hello_user_account
     where  1 = 1
   </select>
+
+  <select id="countUesrInfoByLoginName"  resultMap="BaseResultMap">
+  select
+    <include refid="Base_Column_List"/>
+  from
+    tnt_biz_hello_user_account
+  where
+    login_name = #{loginName}
+  and
+    archive = 1
+  </select>
+
+
 </mapper>
