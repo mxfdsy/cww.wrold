@@ -2,7 +2,7 @@ package cww.world.common.exception;
 
 import com.alibaba.fastjson.JSON;
 import cww.world.common.constant.BaseCode;
-import  cww.world.common.constant.Contants;
+import cww.world.common.constant.Constants;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,12 +27,19 @@ public class BaseException extends RuntimeException{
         this(error,message,null);
     }
 
+    public BaseCode getError() {
+        return error;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
     @Override
     public String toString() {
         Map<String, String> jsonObj = new HashMap<String, String>();
-        jsonObj.put(Contants.CODE_FLAG, String.valueOf(error.getCode()));
-        jsonObj.put(Contants.ERROR_MSG_FLAG, error.getMessage()+","+this.getMessage());
+        jsonObj.put(Constants.CODE_FLAG, String.valueOf(error.getCode()));
+        jsonObj.put(Constants.ERROR_MSG_FLAG, error.getMessage()+","+this.getMessage());
 
         return JSON.toJSONString(jsonObj);
 

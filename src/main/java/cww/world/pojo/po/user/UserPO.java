@@ -56,10 +56,24 @@ public class UserPO implements Serializable {
 
     private String updatedBy;
 
+    private int archive;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
         return id;
+    }
+
+    public int getArchive() {
+        return archive;
+    }
+
+    public void setArchive(int archive) {
+        this.archive = archive;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public void setId(Integer id) {

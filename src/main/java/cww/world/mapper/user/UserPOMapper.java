@@ -22,5 +22,5 @@ public interface UserPOMapper {
 
     List<UserPO> listUserInfo();
 
-    UserPO countUesrInfoByLoginName(@Param("loginName") String loginName);
+    UserPO getUserInfoByLoginName(@Param("loginName") String loginName);
 }

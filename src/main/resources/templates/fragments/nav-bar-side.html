@@ -1,0 +1,42 @@
+<div class="layui-side-scroll" th:if="${ session.login_user_menu!=null && #arrays.length(session.login_user_menu)>0}">
+    <div class="layui-logo">
+        <span>欧亚达ERP管理系统</span>
+    </div>
+    <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="system-side-menu" lay-filter="system-side-menu">
+        <li class="layui-nav-item" th:classappend="${session.menuDTO}?'':'layui-this'">
+            <a th:href="@{/dashboard/layout/index.html}" lay-direction="2">
+                <cite>工作台</cite>
+            </a>
+        </li>
+        <li th:data-name="${parent.name}" class="layui-nav-item" th:each="parent:${session.login_user_menu}"
+            th:if="${parent.layer} == 1"
+            th:classappend="(${#strings.isEmpty(session.menuDTO?.parent)} and  ${parent.id}==1 ) or ${(!#strings.isEmpty(session.menuDTO?.parent) and  ((session.menuDTO?.parent == parent.id) or  #arrays.contains(#strings.arraySplit(session.menuDTO.code,','),parent.code)   ) )}?'layui-nav-itemed':''">
+            <a th:href="@{${parent.skipUrl}?:'javascript:;'}" lay-direction="2">
+                <cite th:text="${parent.name}">一级菜单名称</cite>
+                <span class="layui-nav-more"></span>
+            </a>
+            <dl class="layui-nav-child">
+                <dd th:data-name="${child.name}" th:each="child:${session.login_user_menu}"
+                    th:if="${child.layer == 2 && child.parent == parent.id}"
+                    th:classappend="${child.id==session.menuDTO?.id?'layui-this':''}">
+                    <a th:href="${child.skipUrl}"
+                       th:text="${child.name}">二级菜单名称</a>
+                </dd>
+            </dl>
+        </li>
+    </ul>
+</div>
+
+
+<div class="layui-side-scroll" th:if="${ session.login_user_menu == null || #arrays.length(session.login_user_menu) == 0}">
+    <div class="layui-logo">
+        <span>欧亚达ERP管理系统</span>
+    </div>
+    <ul class="layui-nav layui-nav-tree" lay-shrink="all" lay-filter="system-side-menu">
+        <li class="layui-nav-item" th:classappend="${session.menuDTO}?'':'layui-this'">
+            <a th:href="@{/dashboard/layout/index.html}" lay-direction="2">
+                <cite>工作台</cite>
+            </a>
+        </li>
+    </ul>
+</div>

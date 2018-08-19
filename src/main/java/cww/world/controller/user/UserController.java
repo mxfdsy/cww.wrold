@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author 小武 on 2018/8/14.
  */
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/")
 public class UserController {
     @Autowired
     UserService userService;
@@ -19,11 +19,7 @@ public class UserController {
     public String userList2(Model model) throws Exception {
         model.addAttribute("hello","Hello, Spring Boot!");
         model.addAttribute("userList", userService.userList());
-        return "/demo/list2";
-    }
-    @RequestMapping("/index")
-    public String index(Model model) throws Exception {
-        return "/demo/test3";
+        return "/login/list2";
     }
 
 }

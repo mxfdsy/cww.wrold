@@ -18,10 +18,11 @@
     <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
     <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
     <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+    <result column="archive" property="archive" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, user_uid, name, login_name, password, phone, status, gender, email, wechat_no, 
-    identity, memo, created_at, updated_at, created_by, updated_by
+    identity, memo, created_at, updated_at, created_by, updated_by,archive
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -229,7 +230,7 @@
     where  1 = 1
   </select>
 
-  <select id="countUesrInfoByLoginName"  resultMap="BaseResultMap">
+  <select id="getUserInfoByLoginName"  resultMap="BaseResultMap">
   select
     <include refid="Base_Column_List"/>
   from

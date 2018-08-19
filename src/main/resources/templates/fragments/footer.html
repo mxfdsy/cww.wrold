@@ -1,0 +1,80 @@
+<script type="text/javascript" th:src="@{/layui/lmf-1.0.18/layui.js}"></script>
+<script>
+    layui.config({
+        base: '/scripts/modules/',
+        version: '201807201316'
+    });
+    layui.use(['element', 'jquery'], function () {
+        var tipsConfig = {
+            maxWidth: 400,
+            time: 0,
+            tips: [2, '#757978']
+        };
+
+        var $ = layui.$;
+        $('body')
+            .on('mouseenter', '[lay-tips]', function () {
+                var content = $(this).attr('lay-tips');
+                if (content) {
+                    content = '<div class="layui-layer-tips-content">' + content + '</div>'
+                    $(this).data('_tips', layer.tips(content, this, tipsConfig));
+                }
+            })
+            .on('mouseleave', '[lay-tips]', function () {
+                var _tipsIndex = $(this).data('_tips') || '';
+                if (_tipsIndex) {
+                    layer.close(_tipsIndex);
+                }
+            })
+            .on('click', '[lay-tips]', function () {
+                var content = $(this).attr('lay-tips');
+                // 当品牌查看编辑字段长度大于300，弹框显示
+                if (content && content.length > 300) {
+                    layer.alert(content, {
+                        area: 'auto',
+                        maxWidth: 500,
+                        maxHeight: 500,
+                        scrollbar: true,
+                        title: '操作行为',
+                        closeBtn: 0
+                    });
+                }
+                return false;
+            })
+            .on('input', 'input.onlyNumber', function () {
+                var obj = this;
+                var max_length = $(this).data('maxLength') || 5;
+                //先把非数字的都替换掉，除了数字和.
+                obj.value = obj.value.replace(/[^\d\.]/g, '');
+                //必须保证第一个为数字而不是.
+                obj.value = obj.value.replace(/^\./g, '');
+
+                //保证只有出现一个.而没有多个.
+                obj.value = obj.value.replace(/\.{2,}/g, '.');
+                //保证.只出现一次，而不能出现两次以上
+                obj.value = obj.value.replace('.', '$#$').replace(/\./g, '').replace('$#$', '.');
+
+                //默认小数点后只有两位
+                if (obj.value.indexOf('.') != -1) {
+                    var v = obj.value.split('.');
+                    if (v[1].length > 2) {
+                        obj.value = v[0] + '.' + v[1].substring(0, 2)
+                    }
+                }
+
+                //保证最大长度
+                if (max_length > 0) {
+                    if (obj.value.indexOf('.') == -1 && obj.value.length > max_length) {
+                        obj.value = obj.value.substring(0, max_length);
+                    }
+                    if (obj.value.indexOf('.') != -1) {
+                        //有小数保留小数
+                        var val = obj.value.split('.');
+                        if (val[0].length > max_length - 3) {
+                            obj.value = obj.value.substring(0, max_length - 3) + '.' + val[1];
+                        }
+                    }
+                }
+            })
+    });
+</script>

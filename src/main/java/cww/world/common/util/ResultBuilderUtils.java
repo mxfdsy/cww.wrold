@@ -2,13 +2,13 @@ package cww.world.common.util;
 
 
 import com.alibaba.fastjson.JSONObject;
-import cww.world.common.constant.Contants;
+import cww.world.common.constant.Constants;
 import cww.world.pojo.dto.BaseResponseDTO;
 
 public class ResultBuilderUtils {
     public static  String  buildSuccess(String messsage){
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put(Contants.MESSAGE_FLG, messsage);
+        jsonObject.put(Constants.MESSAGE_FLG, messsage);
         return buildSuccess(jsonObject);
     }
 
