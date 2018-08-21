@@ -42,7 +42,8 @@ public class UserServiceImpl implements UserService {
             }
 
         HttpSession session = request.getSession();
-        session.setAttribute(loginUserRequest.getLoginName(),loginUser);
+        session.setAttribute(Constants.USER_INFO,loginUser);
+
 
 
 

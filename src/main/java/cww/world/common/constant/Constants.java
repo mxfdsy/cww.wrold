@@ -10,4 +10,8 @@ public class Constants {
     public static final String MESSAGE_FLG = "message";
     public static final String LAST_REDIRECT_URL = "last_redirect_url";
     public static final String REDIRECT_URL = "redirect_url";
+    /*************************** session ****************************/
+    public static final String USER_INFO = "user_info";
+
+
 }
