@@ -1,8 +1,4 @@
 package cww.world.common.constant;
-
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * @author 小武 on 2018/8/17.\
  *
