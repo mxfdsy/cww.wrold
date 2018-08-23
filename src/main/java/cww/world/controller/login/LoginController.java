@@ -7,6 +7,7 @@ import cww.world.common.exception.BaseException;
 import cww.world.common.validate.EntityValidator;
 import cww.world.common.validate.ValidateResult;
 import cww.world.common.validate.group.Insert;
+import cww.world.config.RedisUtils;
 import cww.world.pojo.po.user.UserPO;
 import cww.world.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class LoginController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    RedisUtils redisUtils;
 
     @RequestMapping(value = "/check" , method = RequestMethod.POST, produces = JSON_UTF8)
     @ResponseBody
