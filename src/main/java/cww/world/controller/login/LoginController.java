@@ -52,6 +52,14 @@ public class LoginController {
         return "/login/index2";
     }
 
+    @RequestMapping("/user")
+    public String userIndex(Model model) throws Exception {
+        return "/user/list";
+    }
+
+
+
+
     @RequestMapping("/login")
     public String login(Model model) throws Exception {
         return "/login/login";
