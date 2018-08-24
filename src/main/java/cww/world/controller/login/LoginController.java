@@ -46,6 +46,7 @@ public class LoginController {
         return  userService.login(loginUser, request);
     }
 
+
     @RequestMapping("/index")
     public String index(Model model) throws Exception {
         return "/login/index2";

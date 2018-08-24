@@ -1,5 +1,6 @@
 package cww.world.mapper.user;
 
+import cww.world.pojo.dto.PageableRequestDTO;
 import cww.world.pojo.po.user.UserPO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -20,7 +21,7 @@ public interface UserPOMapper {
 
     int updateByPrimaryKey(UserPO record);
 
-    List<UserPO> listUserInfo();
+    List<UserPO> listUserInfo(PageableRequestDTO pageableRequestDTO);
 
     UserPO getUserInfoByLoginName(@Param("loginName") String loginName);
 }

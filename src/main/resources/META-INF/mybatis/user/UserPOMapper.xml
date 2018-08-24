@@ -222,12 +222,33 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="listUserInfo" resultType="cww.world.pojo.po.user.UserPO">
+  <sql id="listUserWhere">
+    <where>
+      <trim prefixOverrides="and|or">
+        archive = 1
+        <if test="name != null and name != ''  ">      AND  name like CONCAT('%', #{name}, '%')</if>
+        <!--<if test="catalogUids != null and !catalogUids.isEmpty()  ">-->
+          <!--AND catalog.catalog_uid in-->
+          <!--<foreach collection="catalogUids" item="item" open="(" close=")" separator=",">-->
+            <!--#{item}-->
+          <!--</foreach>-->
+        <!--</if>-->
+      </trim>
+    </where>
+  </sql>
+
+  <select id="listUserInfo" resultMap="BaseResultMap">
     SELECT
     <include refid="Base_Column_List"/>
     FROM
     tnt_biz_hello_user_account
-    where  1 = 1
+    <include refid="listUserWhere"/>
+    <if test="sortKey != null and sortOrder != null">
+      ORDER BY ${sortKey} ${sortOrder}
+    </if>
+    <if test="pageNo != null and pageSize != null">
+      limit #{pageOffset},#{pageSize}
+    </if>
   </select>
 
   <select id="getUserInfoByLoginName"  resultMap="BaseResultMap">

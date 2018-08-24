@@ -6,6 +6,8 @@ import cww.world.common.constant.Constants;
 import cww.world.common.exception.BaseException;
 import cww.world.common.util.ResultBuilderUtils;
 import cww.world.mapper.user.UserPOMapper;
+import cww.world.pojo.dto.PageableRequestDTO;
+import cww.world.pojo.dto.user.ListUserDTO;
 import cww.world.pojo.po.user.UserPO;
 import cww.world.service.user.UserService;
 import org.apache.commons.lang3.StringUtils;
@@ -26,8 +28,8 @@ public class UserServiceImpl implements UserService {
     UserPOMapper userPOMapper;
 
     @Override
-    public List<UserPO> userList() {
-       return userPOMapper.listUserInfo();
+    public List<UserPO> userList(ListUserDTO listUserDTO) {
+       return userPOMapper.listUserInfo(listUserDTO);
     }
 
     @Override
