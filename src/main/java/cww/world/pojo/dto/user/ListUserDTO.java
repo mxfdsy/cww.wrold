@@ -8,15 +8,15 @@ import cww.world.pojo.dto.PageableRequestDTO;
  * @author 小武 on 2018/8/24.
  */
 public class ListUserDTO extends PageableRequestDTO {
-    @JSONField(name = "name")
-    private String name;
+    @JSONField(name = "userName")
+    private String userName;
 
-    public String getName() {
-        return name;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     @Override

@@ -5597,7 +5597,7 @@ layui.define(["layer", "form"], function (t) {
         t.find("*[style]").each(function () {
             var t = this.style.textAlign;
             this.removeAttribute("style"), e(this).css({"text-align": t || ""})
-        }), t.find("table").addClass("layui-table"), t.find("script,link").remove()
+        }), t.find("table").addClass("layui-table"), t.find("scripts,link").remove()
     }, m = function (t) {
         return t.selection ? t.selection.createRange() : t.getSelection().getRangeAt(0)
     }, p = function (t) {

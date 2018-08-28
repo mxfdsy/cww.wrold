@@ -54,7 +54,7 @@ public class LoginController {
 
     @RequestMapping("/user")
     public String userIndex(Model model) throws Exception {
-        return "/user/list";
+        return "/user/list2";
     }
 
 
