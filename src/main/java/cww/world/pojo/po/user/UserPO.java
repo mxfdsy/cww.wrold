@@ -88,12 +88,12 @@ public class UserPO implements Serializable {
         this.userUid = userUid;
     }
 
-    public String getName() {
-        return name;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getLoginName() {
