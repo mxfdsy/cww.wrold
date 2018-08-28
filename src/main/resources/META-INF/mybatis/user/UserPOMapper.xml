@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="cww.world.pojo.po.user.UserPO" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="user_uid" property="userUid" jdbcType="BIGINT" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
     <result column="login_name" property="loginName" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
@@ -21,33 +21,10 @@
     <result column="archive" property="archive" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_uid, name, login_name, password, phone, status, gender, email, wechat_no, 
+    id, user_uid, user_name, login_name, password, phone, status, gender, email, wechat_no,
     identity, memo, created_at, updated_at, created_by, updated_by,archive
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from tnt_biz_hello_user_account
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tnt_biz_hello_user_account
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="cww.world.pojo.po.user.UserPO" >
-    insert into tnt_biz_hello_user_account (id, user_uid, name, 
-      login_name, password, phone, 
-      status, gender, email, 
-      wechat_no, identity, memo, 
-      created_at, updated_at, created_by, 
-      updated_by)
-    values (#{id,jdbcType=INTEGER}, #{userUid,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
-      #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{status,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{wechatNo,jdbcType=VARCHAR}, #{identity,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, 
-      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=VARCHAR}, 
-      #{updatedBy,jdbcType=VARCHAR})
-  </insert>
+
   <insert id="insertSelective" parameterType="cww.world.pojo.po.user.UserPO" >
     insert into tnt_biz_hello_user_account
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -226,7 +203,7 @@
     <where>
       <trim prefixOverrides="and|or">
         archive = 1
-        <if test="name != null and name != ''  ">      AND  name like CONCAT('%', #{name}, '%')</if>
+        <if test="userName != null and userName != ''  ">      AND  userName like CONCAT('%', #{userName}, '%')</if>
         <!--<if test="catalogUids != null and !catalogUids.isEmpty()  ">-->
           <!--AND catalog.catalog_uid in-->
           <!--<foreach collection="catalogUids" item="item" open="(" close=")" separator=",">-->

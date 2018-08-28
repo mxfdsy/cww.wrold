@@ -15,8 +15,8 @@ public class UserPO implements Serializable {
     @JSONField(name = "userUid")
     private Long userUid;
 
-    @JSONField(name = "name")
-    private String name;
+    @JSONField(name = "userName")
+    private String userName;
 
     @NotNull(message = "登陆名不能为空",groups = Insert.class)
     @JSONField(name = "loginName")
