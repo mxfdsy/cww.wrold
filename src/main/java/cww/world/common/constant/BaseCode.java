@@ -13,6 +13,8 @@ public enum BaseCode {
 
     PERMISSION_IS_NOT_EXIST(13001,"权限信息不存在"),
 
+    INTERNAL_ERROR(11002,"请求信息不存在"),
+
     INVALID_ARGUMENT(11001, "请求参数错误");
 
     private int code;

@@ -8,9 +8,11 @@ import cww.world.common.util.ResultBuilderUtils;
 import cww.world.mapper.user.UserPOMapper;
 import cww.world.pojo.dto.PageableRequestDTO;
 import cww.world.pojo.dto.user.ListUserDTO;
+import cww.world.pojo.dto.user.UserInfoResponseDTO;
 import cww.world.pojo.po.user.UserPO;
 import cww.world.service.user.UserService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,5 +60,16 @@ public class UserServiceImpl implements UserService {
         }
 
         return ResultBuilderUtils.buildSuccess(loginUser);
+    }
+
+    @Override
+    public UserInfoResponseDTO getUserInfoByUserUid(String userUid) {
+        UserPO responsePO = userPOMapper.getUserInfoByUid(userUid);
+        if (null == responsePO) {
+            throw new BaseException(BaseCode.INTERNAL_ERROR, "用户不存在");
+        }
+        UserInfoResponseDTO responseDTO = new UserInfoResponseDTO();
+        BeanUtils.copyProperties(responsePO, responseDTO);
+        return responseDTO;
     }
 }

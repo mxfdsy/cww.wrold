@@ -220,13 +220,13 @@ layui.use(['lmfTable', 'table', 'layer', 'lmfEvent', 'jstree','lmfConfig'], func
         page: true,
         cols: [[
             {
-                field: 'created_at',
+                field: 'createdAt',
                 type: 'checkbox',
                 title: '用户uid',
                 fixed: 'left'
             },
             {
-                field: 'login_name',
+                field: 'loginName',
                 title: '登陆账号',
                 width: '15%',
                 align: 'left'
@@ -234,12 +234,6 @@ layui.use(['lmfTable', 'table', 'layer', 'lmfEvent', 'jstree','lmfConfig'], func
             {
                 field: 'userName',
                 title: '员工姓名',
-                width: '15%',
-                align: 'left'
-            },
-            {
-                field: 'role_names',
-                title: '角色',
                 width: '15%',
                 align: 'left'
             },
@@ -268,7 +262,7 @@ layui.use(['lmfTable', 'table', 'layer', 'lmfEvent', 'jstree','lmfConfig'], func
                 }
             },
             {
-                field: 'user_uid',
+                field: 'userUid',
                 align: 'center',
                 title: '操作',
                 fixed: 'right',

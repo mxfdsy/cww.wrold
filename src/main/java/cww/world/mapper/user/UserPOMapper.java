@@ -9,13 +9,9 @@ import java.util.List;
 
 @Mapper
 public interface UserPOMapper {
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(UserPO record);
 
     int insertSelective(UserPO record);
 
-    UserPO selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(UserPO record);
 
@@ -24,4 +20,6 @@ public interface UserPOMapper {
     List<UserPO> listUserInfo(PageableRequestDTO pageableRequestDTO);
 
     UserPO getUserInfoByLoginName(@Param("loginName") String loginName);
+
+    UserPO getUserInfoByUid(@Param("userUid") String userUid);
 }

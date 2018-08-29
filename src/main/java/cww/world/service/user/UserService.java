@@ -2,6 +2,7 @@ package cww.world.service.user;
 
 import cww.world.pojo.dto.PageableRequestDTO;
 import cww.world.pojo.dto.user.ListUserDTO;
+import cww.world.pojo.dto.user.UserInfoResponseDTO;
 import cww.world.pojo.po.user.UserPO;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,4 +17,5 @@ public interface UserService {
     String login(UserPO loginUser, HttpServletRequest request);
 
 
+    UserInfoResponseDTO getUserInfoByUserUid(String userUid);
 }

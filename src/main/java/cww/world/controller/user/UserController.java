@@ -2,6 +2,7 @@ package cww.world.controller.user;
 
 import com.alibaba.fastjson.JSON;
 import cww.world.common.util.ResultBuilderUtils;
+import cww.world.pojo.dto.GridPage;
 import cww.world.pojo.dto.PageableRequestDTO;
 import cww.world.pojo.dto.user.ListUserDTO;
 import cww.world.pojo.po.user.UserPO;
@@ -9,6 +10,7 @@ import cww.world.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,6 +38,15 @@ public class UserController {
     public String getUserList(@RequestBody String payload){
         ListUserDTO listUserDTO = JSON.parseObject(payload, ListUserDTO.class);
         List<UserPO> userPOS = userService.userList(listUserDTO);
-        return ResultBuilderUtils.buildSuccess(userPOS);
+        return ResultBuilderUtils.buildSuccess(new GridPage<>(userPOS.size(),userPOS));
     }
+
+    @RequestMapping(value = "/viewUser/{userUid:[\\d]+}.html")
+    public String goToViewUserPage(@PathVariable String userUid, Model model){
+        //TODO 检验用户是否存在
+        model.addAttribute("userInfo", userService.getUserInfoByUserUid(userUid));
+        return "user/view";
+    }
+
+
 }

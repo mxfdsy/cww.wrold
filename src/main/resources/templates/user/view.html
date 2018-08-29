@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]>
+<html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--<![endif]-->
+
+<head>
+    <meta th:remove="tag" th:include="fragments/head">
+    <title>查看用户</title>
+
+    <link th:href="@{/styles/pages/brand/view.css}" rel="stylesheet" type="text/css"/>
+    <style>
+        .layui-form-item .layui-input-inline {
+            width: auto;
+            margin-right: 23px;
+        }
+
+    </style>
+    <link th:href="@{/styles/pages/user/create.css?201806261046}" rel="stylesheet" type="text/css"/>
+
+</head>
+
+<body class="layui-layout-body layadmin-tabspage-none">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header" th:include="fragments/header"></div>
+
+    <div class="layui-side layui-side-menu" th:include="fragments/nav-bar-side"></div>
+
+    <div class="layui-body">
+
+        <div class="layui-card layadmin-header">
+            <div class="layui-breadcrumb">
+                <a><cite>主页</cite></a>
+                <span lay-separator="">/</span>
+                <a><cite>系统管理</cite></a>
+                <span lay-separator="">/</span>
+
+                <a href="/user/layout/index.html">用户维护</a>
+                <span lay-separator="">/</span>
+                <a th:href="'/user/viewUser/' + ${userInfo.userUid} + '.html'">查看用户</a>
+            </div>
+        </div>
+
+        <div class="layui-fluid">
+            <div class="layui-row">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        查看用户
+                    </div>
+
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item brand-info layui-show">
+
+                            <blockquote class="layui-elem-quote">基础信息</blockquote>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label ">员工姓名: </label>
+                                <div class="layui-input-block">
+                                    <div class="layui-input-view" th:text="${userInfo.userName}"></div>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">登录账户: </label>
+                                <div class="layui-input-block">
+                                    <div class="layui-input-view" th:text="${userInfo.loginName?:'-'}"></div>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label ">性别: </label>
+                                <div class="layui-input-block">
+                                    <div class="layui-input-view"
+                                         th:text="${userInfo.gender == 'M' ? '男' : '女' } "></div>
+
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label ">手机: </label>
+                                <div class="layui-input-block">
+                                    <div class="layui-input-view" th:text="${userInfo.phone?:'-'}"></div>
+
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label ">邮箱: </label>
+                                <div class="layui-input-block">
+                                    <div class="layui-input-view" th:text="${userInfo.email?:'-'}"></div>
+
+                                </div>
+                            </div>
+
+                            <blockquote class="layui-elem-quote">权限配置</blockquote>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 辅助元素，一般用于移动设备下遮罩 -->
+    <div class="layadmin-body-shade" layadmin-event="shade"></div>
+
+</div>
+<footer>
+    <div th:remove="tag" th:include="fragments/footer"></div>
+</footer>
+</body>
+</html>
+
+<script id="tplPermission" type="text/html">
+    <div class="layui-tab">
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <form class="layui-form layui-form-sm" lay-filter="user-view-search">
+                    <div class="layui-input-inline">
+                        <input type="text" name="program_name"
+                               autocomplete="true" placeholder="请输入项目名称"
+                               maxlength="40" class="layui-input">
+                        <input type="hidden" name="user_uid" th:value="${userInfo.userUid}">
+                        <input type="hidden" name="role_uid" id="role-uid" value="{{d.role_uid}}">
+                    </div>
+                    <div class="layui-input-inline">
+                        <button class="layui-btn layui-btn-sm layui-search-btn"
+                                lay-submit lay-filter="user-view-search">搜索
+                        </button>
+                    </div>
+                </form>
+
+                <table class="layui-hide" id="user-view-table" lay-filter="user-view-table"></table>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/javascript" th:inline="javascript">
+    var userInfo = [[${userInfo}]];
+   console.log(userInfo);
+</script>
+
+<script type="text/javascript" th:src="@{/scripts/pages/user/view.js?201806201643}"></script>

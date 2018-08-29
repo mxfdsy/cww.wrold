@@ -51,7 +51,7 @@
                                 <div class="layui-col-sm3">
                                     <label class="layui-form-label">登录账号</label>
                                     <div class="layui-input-block">
-                                        <input type="text" name="login_name"
+                                        <input type="text" name="loginName"
                                                autocomplete="true" placeholder="请输入登录账号"
                                                class="layui-input">
                                     </div>
@@ -61,17 +61,18 @@
                                     <label class="layui-form-label">员工姓名</label>
                                     <div class="layui-input-block">
 
-                                        <input type="text" name="name" autocomplete="true"
+                                        <input type="text" name="userName" autocomplete="true"
                                                placeholder="请输入员工姓名"
                                                class="layui-input">
                                     </div>
                                 </div>
 
                                 <div class="layui-col-sm3">
-                                    <label class="layui-form-label">角色</label>
+                                    <label class="layui-form-label">手机号</label>
                                     <div class="layui-input-block">
-                                        <input type="text" name="role_name"
-                                               autocomplete="true" placeholder="请输入角色"
+
+                                        <input type="text" name="phone" autocomplete="true"
+                                               placeholder="请输入手机号"
                                                class="layui-input">
                                     </div>
                                 </div>
@@ -99,16 +100,6 @@
                                                readonly>
 
                                         <div id="organization_uids"></div>
-                                    </div>
-                                </div>
-
-                                <div class="layui-col-sm3">
-                                    <label class="layui-form-label">手机号码</label>
-                                    <div class="layui-input-block">
-
-                                        <input type="text" name="phone"
-                                               autocomplete="true" placeholder="请输入手机号码"
-                                               class="layui-input">
                                     </div>
                                 </div>
                             </div>
@@ -168,7 +159,7 @@
     <div th:remove="tag" th:include="fragments/footer"></div>
 
     <script id="operateTemplate" type="text/html">
-        <a class="split-line" href="/user/viewUser/{{d.user_uid}}.html">查看</a>
+        <a class="split-line" href="/user/viewUser/{{d.userUid}}.html">查看</a>
         <a class="split-line" href="/user/updateUser/{{d.user_uid}}.html">编辑</a>
 
         <a href="#" lay-event="change_user_pwd">重置密码</a>

@@ -203,7 +203,10 @@
     <where>
       <trim prefixOverrides="and|or">
         archive = 1
-        <if test="userName != null and userName != ''  ">      AND  userName like CONCAT('%', #{userName}, '%')</if>
+        <if test="loginName != null and loginName != ''  ">      AND  login_name like CONCAT('%', #{loginName}, '%')</if>
+        <if test="userName != null and userName != ''  ">      AND  user_name like CONCAT('%', #{userName}, '%')</if>
+        <if test="phone != null and phone != ''  ">      AND  phone like CONCAT('%', #{phone}, '%')</if>
+        <if test="status != null and status != ''  ">      AND  status like CONCAT('%', #{status}, '%')</if>
         <!--<if test="catalogUids != null and !catalogUids.isEmpty()  ">-->
           <!--AND catalog.catalog_uid in-->
           <!--<foreach collection="catalogUids" item="item" open="(" close=")" separator=",">-->
@@ -236,6 +239,17 @@
   where
     login_name = #{loginName}
   and
+    archive = 1
+  </select>
+
+  <select id="getUserInfoByUid"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from
+    tnt_biz_hello_user_account
+    where
+    user_uid = #{userUid}
+    and
     archive = 1
   </select>
 
