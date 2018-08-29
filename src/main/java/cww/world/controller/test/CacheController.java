@@ -3,7 +3,7 @@ package cww.world.controller.test;
 /**
  * @author 小武 on 2018/8/23.
  */
-import cww.world.config.RedisUtils;
+import cww.world.common.util.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

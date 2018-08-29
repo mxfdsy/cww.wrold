@@ -1,4 +1,4 @@
-package cww.world.config;
+package cww.world.common.util;
 
 import java.io.Serializable;
 import java.util.Set;
