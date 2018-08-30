@@ -7,13 +7,11 @@ import cww.world.pojo.dto.PageableRequestDTO;
 import cww.world.pojo.dto.user.ListUserDTO;
 import cww.world.pojo.po.user.UserPO;
 import cww.world.service.user.UserService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +23,18 @@ import java.util.List;
 public class UserController {
     @Autowired
     UserService userService;
+
+
+    @RequestMapping(value = "/layout/index.html",method = RequestMethod.GET)
+    public String userList() {
+        return "user/list2";
+    }
+
+    @RequestMapping(value = "/createUser.html")
+    public String createUser(Model model){
+        return "user/create";
+    }
+
 
     @RequestMapping("/list2")
     public String userList2(Model model) throws Exception {
@@ -48,5 +58,10 @@ public class UserController {
         return "user/view";
     }
 
-
+    @ResponseBody
+    @RequestMapping("/createUser")
+    public String createUser(@RequestBody String payload) {
+        UserPO userPO = JSON.parseObject(payload, UserPO.class);
+        return ResultBuilderUtils.buildSuccess(userService.createUser(userPO));
+    }
 }

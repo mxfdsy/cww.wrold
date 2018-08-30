@@ -72,4 +72,13 @@ public class UserServiceImpl implements UserService {
         BeanUtils.copyProperties(responsePO, responseDTO);
         return responseDTO;
     }
+
+    @Override
+    public String createUser(UserPO userPO) {
+        int useruid = userPOMapper.insertUserInfo(userPO);
+//        if (StringUtils.isEmpty(useruid)) {
+//            throw new BaseException(BaseCode.DATE_ERROR);
+//        }
+        return "";
+    }
 }

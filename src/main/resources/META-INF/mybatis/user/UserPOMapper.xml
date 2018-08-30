@@ -25,108 +25,11 @@
     identity, memo, created_at, updated_at, created_by, updated_by,archive
   </sql>
 
-  <insert id="insertSelective" parameterType="cww.world.pojo.po.user.UserPO" >
+  <insert id="insertUserInfo" parameterType="cww.world.pojo.po.user.UserPO" >
     insert into tnt_biz_hello_user_account
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="userUid != null" >
-        user_uid,
-      </if>
-      <if test="name != null" >
-        name,
-      </if>
-      <if test="loginName != null" >
-        login_name,
-      </if>
-      <if test="password != null" >
-        password,
-      </if>
-      <if test="phone != null" >
-        phone,
-      </if>
-      <if test="status != null" >
-        status,
-      </if>
-      <if test="gender != null" >
-        gender,
-      </if>
-      <if test="email != null" >
-        email,
-      </if>
-      <if test="wechatNo != null" >
-        wechat_no,
-      </if>
-      <if test="identity != null" >
-        identity,
-      </if>
-      <if test="memo != null" >
-        memo,
-      </if>
-      <if test="createdAt != null" >
-        created_at,
-      </if>
-      <if test="updatedAt != null" >
-        updated_at,
-      </if>
-      <if test="createdBy != null" >
-        created_by,
-      </if>
-      <if test="updatedBy != null" >
-        updated_by,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="userUid != null" >
-        #{userUid,jdbcType=BIGINT},
-      </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="loginName != null" >
-        #{loginName,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null" >
-        #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null" >
-        #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null" >
-        #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="gender != null" >
-        #{gender,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null" >
-        #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="wechatNo != null" >
-        #{wechatNo,jdbcType=VARCHAR},
-      </if>
-      <if test="identity != null" >
-        #{identity,jdbcType=VARCHAR},
-      </if>
-      <if test="memo != null" >
-        #{memo,jdbcType=VARCHAR},
-      </if>
-      <if test="createdAt != null" >
-        #{createdAt,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatedAt != null" >
-        #{updatedAt,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createdBy != null" >
-        #{createdBy,jdbcType=VARCHAR},
-      </if>
-      <if test="updatedBy != null" >
-        #{updatedBy,jdbcType=VARCHAR},
-      </if>
-    </trim>
+    (user_uid,user_name,login_name,password,phone,status,gender,email,created_at,created_by)
+    values
+    (tnt_uuid_short(), #{userName}, #{loginName}, #{password}, #{phone}, #{status}, #{gender}, #{email}, now(), #{createdBy})
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="cww.world.pojo.po.user.UserPO" >
     update tnt_biz_hello_user_account

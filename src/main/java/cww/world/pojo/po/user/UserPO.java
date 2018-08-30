@@ -13,7 +13,7 @@ public class UserPO implements Serializable {
     private Integer id;
 
     @JSONField(name = "userUid")
-    private Long userUid;
+    private String userUid;
 
     @JSONField(name = "userName")
     private String userName;
@@ -80,11 +80,11 @@ public class UserPO implements Serializable {
         this.id = id;
     }
 
-    public Long getUserUid() {
+    public String getUserUid() {
         return userUid;
     }
 
-    public void setUserUid(Long userUid) {
+    public void setUserUid(String userUid) {
         this.userUid = userUid;
     }
 

@@ -18,4 +18,6 @@ public interface UserService {
 
 
     UserInfoResponseDTO getUserInfoByUserUid(String userUid);
+
+    String createUser(UserPO userPO);
 }
