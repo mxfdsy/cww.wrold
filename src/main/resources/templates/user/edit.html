@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]>
+<html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--<![endif]-->
+
+<head>
+    <meta th:remove="tag" th:include="fragments/head">
+    <title>编辑用户</title>
+
+    <link th:href="@{/scripts/jstree/themes/style.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/scripts/jstree/themes/style.lmf.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/styles/pages/user/create.css?201806261046}" rel="stylesheet" type="text/css"/>
+</head>
+
+<body class="layui-layout-body layadmin-tabspage-none">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header" th:include="fragments/header"></div>
+
+    <div class="layui-side layui-side-menu" th:include="fragments/nav-bar-side"></div>
+
+    <div class="layui-body">
+
+        <div class="layui-card layadmin-header">
+            <div class="layui-breadcrumb">
+                <a><cite>主页</cite></a>
+                <span lay-separator="">/</span>
+                <a><cite>系统管理</cite></a>
+                <span lay-separator="">/</span>
+
+                <a href="/user/layout/index.html">用户维护</a>
+                <span lay-separator="">/</span>
+                <a th:href="'/user/updateUser/' + ${userInfo.userUid} + '.html'">编辑用户</a>
+            </div>
+        </div>
+
+        <div class="layui-fluid">
+            <div class="layui-row">
+                <form class="layui-form" lay-filter="form-info" action="">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            编辑用户
+                        </div>
+
+                        <div class="layui-card-body">
+
+                            <blockquote class="layui-elem-quote">基础信息</blockquote>
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">登录账号 </label>
+                                <div class="layui-input-inline layui-input-md">
+                                    <input type="hidden" name="login_name" th:value="${userInfo.loginName}">
+                                    <input type="text" th:value="${userInfo.loginName}"
+                                           class="layui-input layui-input-disable" readonly>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label layui-label-required">员工姓名 </label>
+                                <div class="layui-input-inline layui-input-md">
+                                    <input type="text" name="userName" lay-verify="required|*1-16"
+                                           placeholder="中英文，限16字符" autocomplete='off'
+                                           lay-errorText="请输入正确的员工姓名" lay-nullText="员工姓名不能为空"
+                                           th:value="${userInfo.userName}" class="layui-input">
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label layui-label-required">性别 </label>
+                                <div class="layui-input-block">
+                                    <input type="radio" name="gender"
+                                           th:checked="${userInfo.gender == 'M' ? 'true' : 'false'}" value="M"
+                                           title="男">
+                                    <input type="radio" name="gender"
+                                           th:checked="${userInfo.gender == 'F' ? 'true' : 'false'}" value="F"
+                                           title="女">
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label layui-label-required">手机 </label>
+                                <div class="layui-input-inline layui-input-md">
+                                    <input type="text" name="phone" lay-verify="required|phone"
+                                           placeholder="请输入手机号码" lay-errorText="请输入正确的手机号码" lay-nullText="手机号码不能为空"
+                                           autocomplete='off'
+                                           th:value="${userInfo.phone}" class="layui-input">
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">邮箱 </label>
+                                <div class="layui-input-inline layui-input-md">
+                                    <input type="text" name="email" lay-verify="input_email"
+                                           autocomplete='off'
+                                           placeholder="请输入邮箱地址" th:value="${userInfo.email}"
+                                           class="layui-input">
+                                </div>
+                            </div>
+
+                            <input type="hidden" name="userUid" th:value="${userInfo.userUid}">
+                        </div>
+                    </div>
+                    <div class="layui-page-bottom">
+                        <button class="layui-btn" lay-submit lay-filter="form-save">保存</button>
+                        <a class="layui-btn layui-btn-primary" href="/user/layout/index.html">取消</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 辅助元素，一般用于移动设备下遮罩 -->
+    <div class="layadmin-body-shade" layadmin-event="shade"></div>
+</div>
+
+<footer>
+    <div th:remove="tag" th:include="fragments/footer"></div>
+</footer>
+</body>
+</html>
+
+<script id="tplRoles" type="text/html">
+    <div class="layui-form-item user-roles" data-index="{{d.index}}">
+        <label class="layui-form-label layui-label-required">角色 </label>
+        <div class="layui-input-inline layui-input-md">
+            <input type="text" lay-verify="required" readonly value="{{d.role_name}}"
+                   placeholder="请选择角色" lay-errorText="请选择正确的角色" lay-nullText="角色不能为空"
+                   lmf-event="choose-role" class="layui-input layui-input-search-icon">
+            <a href="#" class="choose-permission layui-hide"
+               lmf-event="choose-permission"><cite>+设置数据权限</cite></a>
+        </div>
+        <i class="layui-icon layui-icon-close-fill delete-icon" lmf-event="del-role"></i>
+    </div>
+</script>
+
+<script id="tplPermission" type="text/html">
+    <div class="layui-card-body">
+        <div class="layui-tab" lay-filter="choosed-permission-tab">
+            <ul class="layui-tab-title">
+                <li class="layui-this" lmf-event="choosed-permission" th:text="已选项目"></li>
+                <li lmf-event="list-permission" th:text="待选项目"></li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item choosed-program layui-show">
+                    <form class="layui-form layui-form-sm" lay-filter="choosed-search">
+                        <div class="layui-row layui-col-space20">
+                            <div class="layui-col-sm3">
+                                <div class="layui-input-inline">
+                                    <a class="layui-btn layui-btn-sm layui-btn-primary" lmf-event="delete-choose">
+                                        删除
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="layui-col-sm9">
+                                <div class="layui-inline" style="float:right">
+                                    <div class="layui-input-inline">
+                                        <lmf:typselector name="attribution_area"
+                                                         option_use_text_instead_key="true"
+                                                         option_display_all="全部区域"/>
+                                    </div>
+
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="program_name"
+                                               autocomplete="off" placeholder="请输入项目名称"
+                                               maxlength="40" class="layui-input">
+                                    </div>
+                                    <button class="layui-btn layui-btn-sm  layui-search-btn"
+                                            lay-submit lay-filter="choosed-search">搜索
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+
+                    <table class="layui-hide" id="choosed-table" lay-filter="choosed-table"></table>
+                </div>
+                <div class="layui-tab-item all-program">
+                    <form class="layui-form layui-form-sm" lay-filter="permission-search">
+                        <div class="layui-row layui-col-space20">
+                            <div class="layui-col-sm3">
+                                <div class="layui-input-inline">
+                                    <a class="layui-btn layui-btn-sm layui-btn-primary" lmf-event="add-choose">选择
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="layui-col-sm9">
+                                <div class="layui-inline" style="float:right">
+                                    <div class="layui-input-inline">
+                                        <lmf:typselector name="attribution_area"
+                                                         option_use_text_instead_key="true"
+                                                         option_display_all="全部区域"/>
+                                    </div>
+
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="program_name"
+                                               autocomplete="off" placeholder="请输入项目名称"
+                                               maxlength="40" class="layui-input">
+                                    </div>
+                                    <button class="layui-btn layui-btn-sm  layui-search-btn"
+                                            lay-submit lay-filter="permission-search">搜索
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+
+
+                    <table class="layui-hide" id="permission-table" lay-filter="permission-table"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="chooseRole" type="text/html">
+    <div class="layui-card-body">
+        <form class="layui-form layui-form-sm" lay-filter="role-search">
+            <div class="layui-input-inline">
+                <input type="text" name="role_name"
+                       autocomplete="true" placeholder="请输入角色名称"
+                       maxlength="40" class="layui-input">
+            </div>
+            <div class="layui-input-inline">
+                <button class="layui-btn layui-btn-sm  layui-search-btn"
+                        lay-submit lay-filter="role-search">搜索
+                </button>
+            </div>
+        </form>
+
+        <div class="blank-line"></div>
+
+        <table class="layui-hide" id="choose-role-table" lay-filter="choose-role-table"></table>
+    </div>
+</script>
+
+
+<!--组织选择弹框-->
+<script id="tplOrganizationChoose" type="text/html">
+    <div class="layui-card">
+        <div id="category-tree-content"></div>
+    </div>
+</script>
+
+<script type="text/javascript" th:inline="javascript">
+    var userInfo = [[${userInfo}]];
+       console.log('userInfo', userInfo);
+</script>
+
+<script type="text/javascript" th:src="@{/scripts/pages/user/edit.js?201807041404}"></script>

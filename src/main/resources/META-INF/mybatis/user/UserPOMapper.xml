@@ -31,56 +31,19 @@
     values
     (tnt_uuid_short(), #{userName}, #{loginName}, #{password}, #{phone}, #{status}, #{gender}, #{email}, now(), #{createdBy})
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cww.world.pojo.po.user.UserPO" >
-    update tnt_biz_hello_user_account
-    <set >
-      <if test="userUid != null" >
-        user_uid = #{userUid,jdbcType=BIGINT},
-      </if>
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="loginName != null" >
-        login_name = #{loginName,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null" >
-        password = #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null" >
-        phone = #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null" >
-        status = #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="gender != null" >
-        gender = #{gender,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null" >
-        email = #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="wechatNo != null" >
-        wechat_no = #{wechatNo,jdbcType=VARCHAR},
-      </if>
-      <if test="identity != null" >
-        identity = #{identity,jdbcType=VARCHAR},
-      </if>
-      <if test="memo != null" >
-        memo = #{memo,jdbcType=VARCHAR},
-      </if>
-      <if test="createdAt != null" >
-        created_at = #{createdAt,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatedAt != null" >
-        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createdBy != null" >
-        created_by = #{createdBy,jdbcType=VARCHAR},
-      </if>
-      <if test="updatedBy != null" >
-        updated_by = #{updatedBy,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
+  <update id="updateUserinfo" parameterType="cww.world.pojo.po.user.UserPO" >
+    UPDATE
+    tnt_biz_hello_user_account
+    SET
+    user_name = #{userName}, gender = #{gender}, phone = #{phone}, email = #{email}, updated_at = now()
+    <if test="updatedBy != null" >
+      ,updated_by = #{updatedBy}
+    </if>
+    <if test="status != null">
+      ,status = #{status}
+    </if>
+    WHERE
+    user_uid = #{userUid}
   </update>
   <update id="updateByPrimaryKey" parameterType="cww.world.pojo.po.user.UserPO" >
     update tnt_biz_hello_user_account

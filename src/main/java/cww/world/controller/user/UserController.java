@@ -1,6 +1,8 @@
 package cww.world.controller.user;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import cww.world.common.constant.Constants;
 import cww.world.common.util.ResultBuilderUtils;
 import cww.world.pojo.dto.GridPage;
 import cww.world.pojo.dto.PageableRequestDTO;
@@ -64,4 +66,19 @@ public class UserController {
         UserPO userPO = JSON.parseObject(payload, UserPO.class);
         return ResultBuilderUtils.buildSuccess(userService.createUser(userPO));
     }
+
+    @RequestMapping(value = "/updateUser/{userUid:[\\d]+}.html")
+    public String goToUpdateUserPage(@PathVariable String userUid, Model model){
+        model.addAttribute("userInfo", userService.getUserInfoByUserUid(userUid));
+        return "user/edit";
+    }
+    @ResponseBody
+    @RequestMapping("/updateUserInfo")
+    public String updateUserInfo(@RequestBody String payload) {
+        UserPO userPO = JSON.parseObject(payload, UserPO.class);
+        userService.updateUserinfo(userPO);
+        return ResultBuilderUtils.buildSuccess(Constants.SUCCESS);
+    }
+
+
 }

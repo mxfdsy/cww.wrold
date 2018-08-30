@@ -86,4 +86,9 @@ public class UserServiceImpl implements UserService {
         }
         return userPO.getId();
     }
+
+    @Override
+    public void updateUserinfo(UserPO userPO) {
+        int count = userPOMapper.updateUserinfo(userPO);
+    }
 }

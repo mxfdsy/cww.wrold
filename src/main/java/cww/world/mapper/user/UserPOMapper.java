@@ -22,4 +22,6 @@ public interface UserPOMapper {
     int insertUserInfo(UserPO userPO);
 
     int countUserPhone(String phone);
+
+    int updateUserinfo(UserPO userPO);
 }
