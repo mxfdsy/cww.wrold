@@ -25,7 +25,7 @@
     identity, memo, created_at, updated_at, created_by, updated_by,archive
   </sql>
 
-  <insert id="insertUserInfo" parameterType="cww.world.pojo.po.user.UserPO" >
+  <insert id="insertUserInfo" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="cww.world.pojo.po.user.UserPO" >
     insert into tnt_biz_hello_user_account
     (user_uid,user_name,login_name,password,phone,status,gender,email,created_at,created_by)
     values
@@ -144,6 +144,18 @@
   and
     archive = 1
   </select>
+
+  <select id="countUserPhone"  resultType="integer">
+    select
+      COUNT(id)
+    from
+    tnt_biz_hello_user_account
+    where
+    phone = #{phone}
+    and
+    archive = 1
+  </select>
+
 
   <select id="getUserInfoByUid"  resultMap="BaseResultMap">
     select

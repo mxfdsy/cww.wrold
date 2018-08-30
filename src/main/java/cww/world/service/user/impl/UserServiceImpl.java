@@ -75,10 +75,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String createUser(UserPO userPO) {
-        int useruid = userPOMapper.insertUserInfo(userPO);
-//        if (StringUtils.isEmpty(useruid)) {
-//            throw new BaseException(BaseCode.DATE_ERROR);
-//        }
-        return "";
+        int count = userPOMapper.countUserPhone(userPO.getPhone());
+        if (count !=0 ) {
+            throw new BaseException(BaseCode.DATE_ERROR, "该手机已经存在,请核实");
+        }
+
+        int effRows = userPOMapper.insertUserInfo(userPO);
+        if (effRows <= 0) {
+            throw new BaseException(BaseCode.DATE_ERROR);
+        }
+        return userPO.getId();
     }
 }

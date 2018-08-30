@@ -20,4 +20,6 @@ public interface UserPOMapper {
     UserPO getUserInfoByUid(@Param("userUid") String userUid);
 
     int insertUserInfo(UserPO userPO);
+
+    int countUserPhone(String phone);
 }

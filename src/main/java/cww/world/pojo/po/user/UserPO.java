@@ -10,7 +10,7 @@ import java.util.Date;
 
 public class UserPO implements Serializable {
     @JSONField(name = "id")
-    private Integer id;
+    private String id;
 
     @JSONField(name = "userUid")
     private String userUid;
@@ -60,9 +60,6 @@ public class UserPO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
-        return id;
-    }
 
     public int getArchive() {
         return archive;
@@ -76,7 +73,11 @@ public class UserPO implements Serializable {
         return serialVersionUID;
     }
 
-    public void setId(Integer id) {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
         this.id = id;
     }
 
