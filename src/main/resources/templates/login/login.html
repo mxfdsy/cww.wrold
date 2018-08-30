@@ -16,7 +16,7 @@
     <link id="layuicss-layer" rel="stylesheet" href="http://www.layui.com/admin/std/dist/layuiadmin/layui/css/modules/layer/default/layer.css?v=3.1.1" media="all"></head>
 <body layadmin-themealias="default">
 
-<div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;">
+<form class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;">
 
     <div class="layadmin-user-login-main">
         <div class="layadmin-user-login-box layadmin-user-login-header">
@@ -86,7 +86,7 @@
       </scripts>
     </div>-->
 
-</div>
+</form>
 
 <script type="text/javascript" th:src="@{/layui.all.js}"></script>
 <script>
@@ -111,8 +111,10 @@
                     window.location.href ='/login/user';
                 }
             });
-        //
+            return false;
+            //
         });
+
     });
 </script>
 </body>
