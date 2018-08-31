@@ -1,7 +1,7 @@
 package cww.world.service.user;
 
-import cww.world.pojo.dto.PageableRequestDTO;
 import cww.world.pojo.dto.user.ListUserDTO;
+import cww.world.pojo.dto.user.UpdateUserStatusRequestDTO;
 import cww.world.pojo.dto.user.UserInfoResponseDTO;
 import cww.world.pojo.po.user.UserPO;
 
@@ -22,4 +22,6 @@ public interface UserService {
     String createUser(UserPO userPO);
 
     void updateUserinfo(UserPO userPO);
+
+    int updateUserStatus(UpdateUserStatusRequestDTO requestDTO);
 }

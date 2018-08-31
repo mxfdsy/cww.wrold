@@ -1,6 +1,7 @@
 package cww.world.mapper.user;
 
 import cww.world.pojo.dto.PageableRequestDTO;
+import cww.world.pojo.dto.user.UpdateUserStatusRequestDTO;
 import cww.world.pojo.po.user.UserPO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -9,8 +10,6 @@ import java.util.List;
 
 @Mapper
 public interface UserPOMapper {
-    int updateByPrimaryKeySelective(UserPO record);
-
     int updateByPrimaryKey(UserPO record);
 
     List<UserPO> listUserInfo(PageableRequestDTO pageableRequestDTO);
@@ -24,4 +23,8 @@ public interface UserPOMapper {
     int countUserPhone(String phone);
 
     int updateUserinfo(UserPO userPO);
+
+    void updateUserStatus(UpdateUserStatusRequestDTO requestDTO);
+
+    List<UserPO> getAllUserInfo();
 }

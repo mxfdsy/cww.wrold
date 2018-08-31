@@ -131,5 +131,27 @@
     archive = 1
   </select>
 
+  <update id="updateUserStatus" parameterType="cww.world.pojo.dto.user.UpdateUserStatusRequestDTO">
+    update
+      tnt_biz_hello_user_account
+    set
+    <if test="status != null and status != ''" >
+      status = #{status}
+    </if>
+    WHERE
+      user_uid in
+      <foreach collection="userUids" open="(" close=")" separator="," item="item">
+        #{item}
+      </foreach>
+  </update>
+
+  <select id="getAllUserInfo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from
+      tnt_biz_hello_user_account
+    where
+      archive = 1
+  </select>
 
 </mapper>

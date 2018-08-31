@@ -9,7 +9,7 @@ layui.use(['lmfTable', 'table', 'layer', 'lmfEvent', 'jstree','lmfConfig'], func
     var $ = layui.$;
     var CONFIG = layui.lmfConfig;
     
-    var selected_organization_code = [];
+    // var selected_organization_code = [];
     // clickEvent('selected_organization', function (obj) {
     //     layer.load(2);
     //
@@ -121,7 +121,7 @@ layui.use(['lmfTable', 'table', 'layer', 'lmfEvent', 'jstree','lmfConfig'], func
         }
         var request = {
             user_uids: users.map(function (user) {
-                return user.user_uid
+                return user.userUid
             }),
             status: 'TYP_ON'
         };
@@ -136,7 +136,7 @@ layui.use(['lmfTable', 'table', 'layer', 'lmfEvent', 'jstree','lmfConfig'], func
         }
         var request = {
             user_uids: users.map(function (user) {
-                return user.user_uid
+                return user.userUid
             }),
             status: 'TYP_OFF'
         };
@@ -152,7 +152,7 @@ layui.use(['lmfTable', 'table', 'layer', 'lmfEvent', 'jstree','lmfConfig'], func
         layer.confirm(hint_text[request.status], {title: '提示'}, function (layerIndex) {
             $.ajax({
                     type: "post",
-                    url: '/user/updateUserStatus',
+                    url: '/user/batchUpdateUserStatus',
                     dataType: "json",
                     contentType: "application/json",
                     data: JSON.stringify(request)

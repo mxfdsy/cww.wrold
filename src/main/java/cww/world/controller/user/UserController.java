@@ -1,16 +1,24 @@
 package cww.world.controller.user;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import cww.world.common.constant.BaseCode;
 import cww.world.common.constant.Constants;
+import cww.world.common.exception.BaseException;
 import cww.world.common.util.ResultBuilderUtils;
+import cww.world.common.validate.EntityValidator;
+import cww.world.common.validate.ValidateResult;
+import cww.world.common.validate.group.Update;
 import cww.world.pojo.dto.GridPage;
 import cww.world.pojo.dto.PageableRequestDTO;
 import cww.world.pojo.dto.user.ListUserDTO;
+import cww.world.pojo.dto.user.UpdateUserStatusRequestDTO;
 import cww.world.pojo.po.user.UserPO;
 import cww.world.service.user.UserService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +49,6 @@ public class UserController {
     @RequestMapping("/list2")
     public String userList2(Model model) throws Exception {
         model.addAttribute("hello","Hello, Spring Boot!");
-//        model.addAttribute("userList", userService.userList());
         return "/login/list2";
     }
 
@@ -72,6 +79,7 @@ public class UserController {
         model.addAttribute("userInfo", userService.getUserInfoByUserUid(userUid));
         return "user/edit";
     }
+
     @ResponseBody
     @RequestMapping("/updateUserInfo")
     public String updateUserInfo(@RequestBody String payload) {
@@ -80,5 +88,16 @@ public class UserController {
         return ResultBuilderUtils.buildSuccess(Constants.SUCCESS);
     }
 
+    @ResponseBody
+    @RequestMapping("/batchUpdateUserStatus")
+    public String updateUserStatus(@RequestBody String payload) {
+        UpdateUserStatusRequestDTO updateUserStatusRequestDTO = JSON.parseObject(payload, UpdateUserStatusRequestDTO.class);
+        ValidateResult validate = EntityValidator.validate(updateUserStatusRequestDTO, Update.class);
+        if (validate.hasError()) {
+            throw new BaseException(BaseCode.INVALID_ARGUMENT,validate.getErrorMessages());
+        }
+        int successCount = userService.updateUserStatus(updateUserStatusRequestDTO);
+        return ResultBuilderUtils.buildSuccess(successCount);
+    }
 
 }
