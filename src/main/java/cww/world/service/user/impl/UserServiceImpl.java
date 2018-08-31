@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (!loginUserRequest.getPassword().equals(loginUser.getPassword())) {
-            throw new BaseException(BaseCode.INVALID_ARGUMENT, "密码输错了哦,请重新输入");
+                    throw new BaseException(BaseCode.INVALID_ARGUMENT, "密码输错了哦,请重新输入");
         }
 
         HttpSession session = request.getSession();
@@ -100,6 +100,24 @@ public class UserServiceImpl implements UserService {
         return normalUids.size();
     }
 
+    @Override
+    public void batchInsertUserInfo(List<UserPO> userPOS) {
+        userPOMapper.batchInsertUserInfo(userPOS);
+    }
+
+    private List<String> getExistingUid() {
+        List<UserPO> existingUserInfos = userPOMapper.getAllUserInfo();
+        return existingUserInfos.stream().map(UserPO::getUserUid).collect(Collectors.toList());
+    }
+
+
+
+    @Override
+    public void updateUserinfo(UserPO userPO) {
+        userPOMapper.updateUserinfo(userPO);
+    }
+
+
     private ArrayList<String> gengerUpdateInfo(UpdateUserStatusRequestDTO requestDTO, List<String> requestUids, List<String> existingUids) {
         ArrayList<String> normalUids = new ArrayList<>();
         ArrayList<String> exceptionUids = new ArrayList<>();
@@ -119,17 +137,5 @@ public class UserServiceImpl implements UserService {
 
         //TODO 对于异常的数据发送消息记录
         return normalUids;
-    }
-
-    private List<String> getExistingUid() {
-        List<UserPO> existingUserInfos = userPOMapper.getAllUserInfo();
-        return existingUserInfos.stream().map(UserPO::getUserUid).collect(Collectors.toList());
-    }
-
-
-
-    @Override
-    public void updateUserinfo(UserPO userPO) {
-        userPOMapper.updateUserinfo(userPO);
     }
 }

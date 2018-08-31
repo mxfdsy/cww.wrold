@@ -27,4 +27,6 @@ public interface UserPOMapper {
     void updateUserStatus(UpdateUserStatusRequestDTO requestDTO);
 
     List<UserPO> getAllUserInfo();
+
+    int batchInsertUserInfo(@Param("userPOS") List<UserPO> userPOS);
 }

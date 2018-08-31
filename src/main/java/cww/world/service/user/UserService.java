@@ -16,7 +16,6 @@ public interface UserService {
 
     String login(UserPO loginUser, HttpServletRequest request);
 
-
     UserInfoResponseDTO getUserInfoByUserUid(String userUid);
 
     String createUser(UserPO userPO);
@@ -24,4 +23,6 @@ public interface UserService {
     void updateUserinfo(UserPO userPO);
 
     int updateUserStatus(UpdateUserStatusRequestDTO requestDTO);
+
+    void batchInsertUserInfo(List<UserPO> userPOS);
 }

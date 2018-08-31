@@ -154,4 +154,14 @@
       archive = 1
   </select>
 
+  <insert id="batchInsertUserInfo">
+    insert into
+      tnt_biz_hello_user_account
+    (user_uid,user_name)
+    values
+      <foreach collection="userPOS" separator="," item="userPO">
+        (tnt_uuid_short(),#{userName})
+      </foreach>
+  </insert>
+
 </mapper>

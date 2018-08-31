@@ -14,8 +14,10 @@ import cww.world.pojo.dto.GridPage;
 import cww.world.pojo.dto.PageableRequestDTO;
 import cww.world.pojo.dto.user.ListUserDTO;
 import cww.world.pojo.dto.user.UpdateUserStatusRequestDTO;
+import cww.world.pojo.dto.user.UserInfoListRequestDTO;
 import cww.world.pojo.po.user.UserPO;
 import cww.world.service.user.UserService;
+import org.apache.catalina.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -99,5 +101,14 @@ public class UserController {
         int successCount = userService.updateUserStatus(updateUserStatusRequestDTO);
         return ResultBuilderUtils.buildSuccess(successCount);
     }
+
+    @ResponseBody
+    @RequestMapping("/batchInserUserInfo")
+    public  String batchInserUserInfo(@RequestBody String payload){
+        List<UserPO> userPOS = JSONObject.parseArray(payload, UserPO.class);
+        userService.batchInsertUserInfo(userPOS);
+        return "";
+    }
+
 
 }
