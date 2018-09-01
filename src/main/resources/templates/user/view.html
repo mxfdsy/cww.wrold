@@ -51,55 +51,60 @@
                         查看用户
                     </div>
 
-                    <div class="layui-tab-content">
-                        <div class="layui-tab-item brand-info layui-show">
+                    <div class="layui-tab layui-tab-card" lay-filter="component-tabs-brief">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this" lmf-event="brand-info" th:text="|基本信息|"></li>
+                            <li lmf-event="" th:text="|品牌商户|"></li>
+                            <li lmf-event="" th:text="|操作记录|"></li>
+                            <li lmf-event="" th:text="|审核记录|"></li>
+                        </ul>
 
-                            <blockquote class="layui-elem-quote">基础信息</blockquote>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label ">员工姓名: </label>
-                                <div class="layui-input-block">
-                                    <div class="layui-input-view" th:text="${userInfo.userName}"></div>
+                        <div class="layui-tab-content">
+                            <div class="layui-tab-item brand-info layui-show">
+
+                                <blockquote class="layui-elem-quote">基础信息</blockquote>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label ">员工姓名: </label>
+                                    <div class="layui-input-block">
+                                        <div class="layui-input-view" th:text="${userInfo.userName}"></div>
+                                    </div>
+                                </div>
+
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">登录账户: </label>
+                                    <div class="layui-input-block">
+                                        <div class="layui-input-view" th:text="${userInfo.loginName?:'-'}"></div>
+                                    </div>
+                                </div>
+
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label ">性别: </label>
+                                    <div class="layui-input-block">
+                                        <div class="layui-input-view"
+                                             th:text="${userInfo.gender == 'M' ? '男' : '女' } "></div>
+
+                                    </div>
+                                </div>
+
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label ">手机: </label>
+                                    <div class="layui-input-block">
+                                        <div class="layui-input-view" th:text="${userInfo.phone?:'-'}"></div>
+
+                                    </div>
+                                </div>
+
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label ">邮箱: </label>
+                                    <div class="layui-input-block">
+                                        <div class="layui-input-view" th:text="${userInfo.email?:'-'}"></div>
+
+                                    </div>
                                 </div>
                             </div>
-
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">登录账户: </label>
-                                <div class="layui-input-block">
-                                    <div class="layui-input-view" th:text="${userInfo.loginName?:'-'}"></div>
-                                </div>
-                            </div>
-
-                            <div class="layui-form-item">
-                                <label class="layui-form-label ">性别: </label>
-                                <div class="layui-input-block">
-                                    <div class="layui-input-view"
-                                         th:text="${userInfo.gender == 'M' ? '男' : '女' } "></div>
-
-                                </div>
-                            </div>
-
-                            <div class="layui-form-item">
-                                <label class="layui-form-label ">手机: </label>
-                                <div class="layui-input-block">
-                                    <div class="layui-input-view" th:text="${userInfo.phone?:'-'}"></div>
-
-                                </div>
-                            </div>
-
-                            <div class="layui-form-item">
-                                <label class="layui-form-label ">邮箱: </label>
-                                <div class="layui-input-block">
-                                    <div class="layui-input-view" th:text="${userInfo.email?:'-'}"></div>
-
-                                </div>
-                            </div>
-
-                            <blockquote class="layui-elem-quote">权限配置</blockquote>
-
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -141,7 +146,7 @@
 
 <script type="text/javascript" th:inline="javascript">
     var userInfo = [[${userInfo}]];
-   console.log(userInfo);
+    console.log(userInfo);
 </script>
 
 <script type="text/javascript" th:src="@{/scripts/pages/user/view.js?201806201643}"></script>
