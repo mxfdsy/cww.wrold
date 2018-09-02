@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    //Date
+    var now = new Date("2018-08-21 :15:30");
+    console.log(now);
+    console.log(now.getDate());//0 周日
+    console.log(now.getMonth());//0 1月  比我们的少一个月
+    console.log(now.getHours());
+    console.log(now.getMilliseconds());
+
+    //正则表达式
+    var re = new RegExp("a");
+    var a = "abc"
+    console.log(re.test(a));
+
+
+    //函数
+    function sum(sum1,sum2) {
+        return sum1 + 10;
+    }
+
+    // var anotherSum = sum; //
+    // sum = null;
+    console.log(sum(2, 3));//其实引用的是同一个内存空间so 可以玩j
+
+    //函数
+    function sum(sum1,sum2) {
+        return sum1 + 10;
+    }
+
+    function callFuncction(xxx,arg) {
+        return xxx(arg);
+    }
+
+    var result = callFuncction(sum, 100);
+    console.log(result);
+
+    //修改作用域
+    window.color = "red";
+    var o = {color: "green"};
+    function showColor() {
+        console.log(this.color);
+    }
+
+    showColor();
+    showColor.apply(o);
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cww.world.mapper.trace.ModuleOperationTraceMapper">
+    <resultMap id="moduleOperationTraceMap" type="cww.world.pojo.po.trace.ModuleOperationTracePO">
+        <id column="trace_uid" property="traceUid"/>
+        <result column="operation_type" property="operationType"/>
+        <result column="operation_trace_uid" property="operationTraceUid"/>
+        <result column="major_uid" property="majorUid"/>
+        <result column="column1" property="column1"/>
+        <result column="column2" property="column2"/>
+        <result column="column3" property="column3"/>
+        <result column="operate_at" property="operateAt"/>
+        <result column="operator_name" property="operatorName"/>
+        <result column="operator_organization" property="operatorOrganization"/>
+        <result column="operator_phone" property="operatorPhone"/>
+        <result column="operator_user_uid" property="operatorUserUid"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="updatedBy" column="updated_by"/>
+    </resultMap>
+
+    <sql id="moduleOperationTraceColumns">
+        trace_uid, operation_type, major_uid, operator_name, operator_organization, operator_phone, operator_user_uid,column1,column2,column3,operate_at,
+        created_by, created_at, updated_by, updated_at
+    </sql>
+
+    <insert id="insertModuleOperationTrace"
+            parameterType="cww.world.pojo.po.trace.ModuleOperationTracePO">
+        <selectKey keyProperty="traceUid" statementType="STATEMENT" order="BEFORE" resultType="java.lang.String">
+            select tnt_uuid_short()
+        </selectKey>
+        insert tnt_biz_erp_module_operation_trace(
+        trace_uid, operation_trace_uid, operation_type, major_uid, column1, column2, column3, operate_at,
+        operator_name, operator_organization, operator_phone, operator_user_uid, program_name,
+        <if test="mallUid != '' and mallUid != null">
+            mall_uid,
+        </if>
+        created_by, created_at, updated_by, updated_at
+        ) values (
+        #{traceUid},#{operationTraceUid},#{operationType},#{majorUid},#{column1},#{column2},#{column3},#{operateAt},
+        #{operatorName},#{operatorOrganization},#{operatorPhone},#{operatorUserUid}, #{programName},
+        <if test="mallUid != '' and mallUid != null">
+            #{mallUid},
+        </if>
+        #{createdBy},now(),#{updatedBy},now()
+        )
+    </insert>
+</mapper>

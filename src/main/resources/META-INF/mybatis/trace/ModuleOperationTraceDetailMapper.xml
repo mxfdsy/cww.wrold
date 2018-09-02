@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cww.world.mapper.trace.ModuleOperationTraceDetailMapper">
+    <resultMap id="moduleOperationTraceDetailMap" type="cww.world.pojo.po.trace.ModuleOperationTraceDetailPO">
+        <id column="trace_detail_uid" property="traceDetailUid"/>
+        <result column="trace_uid" property="traceUid"/>
+        <result column="item" property="item"/>
+        <result column="item_memo" property="itemMemo"/>
+        <result column="old_value" property="oldValue"/>
+        <result column="new_value" property="newValue"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="updatedBy" column="updated_by"/>
+    </resultMap>
+    <sql id="programOperationTraceDetailColumns">
+        trace_detail_uid, trace_uid, item, item_memo, old_value, new_value, created_by, created_at, updated_by, updated_at
+    </sql>
+    <insert id="batchInsertModuleOperationTraceDeatils"
+            parameterType="cww.world.pojo.po.trace.ModuleOperationTraceDetailPO">
+        insert tnt_biz_erp_module_operation_trace_detail(
+        trace_detail_uid, trace_uid, item, item_memo, old_value, new_value, created_by, created_at, updated_by, updated_at
+        ) values
+        <foreach collection="list" item="item" separator=",">
+            ( tnt_uuid_short(),#{item.traceUid},#{item.item},#{item.itemMemo},#{item.oldValue},#{item.newValue},
+            #{item.createdBy},now(),#{item.updatedBy},now() )
+        </foreach>
+    </insert>
+</mapper>

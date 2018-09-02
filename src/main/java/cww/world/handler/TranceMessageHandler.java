@@ -37,7 +37,7 @@ public class TranceMessageHandler {
         }
 
         TranceService orDefault = tranceServiceMap.getOrDefault(
-                moduleOperationTraceMessageDTO.getProgramName() + "Tranceilmpl", defaultTranceServiceimpl);
+                moduleOperationTraceMessageDTO.getProgramName() + "TranceImpl", defaultTranceServiceimpl);
         orDefault.defaultTranceImpl(moduleOperationTraceMessageDTO);
     }
 }

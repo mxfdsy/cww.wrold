@@ -12,5 +12,5 @@ public interface TranceService {
             return;
         }
 
-      void engerInfoParameter(ModuleOperationTraceMessageDTO moduleOperationTraceMessageDTO);
+    void engerInfoParameter(ModuleOperationTraceMessageDTO moduleOperationTraceMessageDTO);
 }
