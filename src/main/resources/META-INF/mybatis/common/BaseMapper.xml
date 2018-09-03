@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cww.world.mapper.common.BaseMapper">
+
+	<select id="getUuid" resultType="java.lang.String">
+		select tnt_uuid_short()
+	</select>
+
+	<select id="getSequenceNextVal" resultType="java.lang.Long">
+		select tnt_sequence_nextval(#{sequenceName})
+	</select>
+
+	<select id="getDBCurrentTime" resultType="java.util.Date">
+		SELECT SYSDATE() as currentDate
+	</select>
+    
+</mapper>

@@ -19,6 +19,12 @@ public enum BaseCode {
 
     DB_INSERT_ERROR(19999, "数据库插入错误"),
 
+    ROLE_NAME_IS_EXIST_ERROR(25003,"角色名已存在"),
+
+    ROLE_CREATE_ERROR(25001, "角色创建失败"),
+
+    ROLE_IS_NOT_EXIST_ERROR(25004,"角色不存在"),
+
     INVALID_ARGUMENT(11001, "请求参数错误");
 
     private int code;

@@ -1,6 +1,8 @@
 package cww.world.service.menu;
 
 
+import cww.world.pojo.dto.role.EditRoleRequestDTO;
+
 import java.util.List;
 import java.util.Set;
 
@@ -9,4 +11,8 @@ import java.util.Set;
  */
 public interface RolePermissionService {
     List<String> listPermissionUidsByRoleId(String roleId);
+
+    boolean insertRolePermission(String roleUid, EditRoleRequestDTO request);
+
+    int deleteByRoleUid(String roleUid);
 }

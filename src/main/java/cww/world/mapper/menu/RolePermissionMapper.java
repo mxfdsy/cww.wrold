@@ -1,6 +1,7 @@
 package cww.world.mapper.menu;
 
 
+import cww.world.pojo.po.role.RolePermissionPO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,7 +19,7 @@ public interface RolePermissionMapper {
 
     int deleteByRoleUid(@Param("roleUid") String roleUid);
 
-//    int batchInsert(List<RolePermissionPO> permissionPOList);
+    int batchInsert(List<RolePermissionPO> permissionPOList);
 
     int deleteRolePermissionByRoleUid(@Param("roleUid") String roleUid);
 

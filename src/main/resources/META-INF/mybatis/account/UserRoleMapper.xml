@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cww.world.mapper.account.UserRoleMapper">
+	<resultMap type="cww.world.pojo.po.account.UserRolePO" id="userRoleMap">
+		<result column="user_uid" property="userUid"/>
+		<result column="role_uid" property="roleUid"/>
+		<result column="role_key" property="roleKey"/>
+		<result column="mall_uid" property="mallUid"/>
+		
+		<result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
+	    <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
+	    <result column="created_by" property="createdBy" jdbcType="BIGINT" />
+	    <result column="updated_by" property="updatedBy" jdbcType="BIGINT" />
+	    <result column="archive" property="archive" jdbcType="SMALLINT" />
+	</resultMap>
+
+	<resultMap id="roleUserCountMap" type="cww.world.pojo.dto.role.RoleUserCountDTO">
+        <result column="role_uid" property="roleUid"/>
+        <result column="user_count" property="userCount"/>
+    </resultMap>
+
+    <resultMap id="roleUserResult" type="cww.world.pojo.dto.role.RoleUserInfoDTO">
+        <result column="user_uid" property="userUid"/>
+        <result column="name" property="name"/>
+        <result column="phone" property="phone"/>
+        <result column="status" property="status"/>
+        <result column="gender" property="gender"/>
+        <result column="login_name" property="loginName"/>
+        <result column="organization_code" property="organizationCode"/>
+        <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
+        <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
+        <result column="created_by" property="createdBy" jdbcType="BIGINT" />
+        <result column="updated_by" property="updatedBy" jdbcType="BIGINT" />
+    </resultMap>
+
+    <resultMap id="roleInfoMap" type="cww.world.pojo.dto.role.GroupRoleDTO">
+        <result column="role_uid" property="roleUid"/>
+        <result column="role_name" property="roleName"/>
+        <result column="role_key" property="roleKey"/>
+        <result column="role_desc" property="roleDesc"/>
+    </resultMap>
+    
+
+    <select id="listUserRole" resultMap="userRoleMap">
+    	SELECT DISTINCT
+			user_role.user_uid, user_role.role_uid, user_role.mall_uid, role.role_key
+		FROM
+			tnt_biz_erp_user_role user_role
+		INNER JOIN
+			tnt_biz_erp_role role 
+				ON
+			role.archive = 1 AND role.role_uid = user_role.role_uid
+		WHERE
+			user_role.user_uid = #{userUid}
+			AND user_role.archive = 1
+    </select>
+
+    <select id="listRoleUserCount" resultMap="roleUserCountMap">
+        SELECT
+            distinct_user.role_uid, COUNT(distinct_user.user_uid) user_count
+        FROM
+            (SELECT DISTINCT
+                role_uid, user_uid
+            FROM
+                tnt_biz_erp_user_role
+            WHERE
+                archive = 1
+                  AND role_uid IN
+                  <foreach collection="roleUids" open="(" close=")" separator="," item="roleUid">
+                      #{roleUid}
+                  </foreach>
+            ) distinct_user
+        GROUP BY distinct_user.role_uid
+    </select>
+
+    <delete id="deleteUserRoleByRoleUid">
+        DELETE FROM tnt_biz_erp_user_role WHERE role_uid = #{roleUid}
+    </delete>
+
+    <delete id="deleteByUids" parameterType="cww.world.pojo.dto.role.UserRoleRequestDTO">
+       DELETE FROM 
+            tnt_biz_erp_user_role 
+       WHERE 
+            role_uid = #{userRoleDTO.roleUid} 
+            <if test="userRoleDTO.userUids != null">
+                AND user_uid in 
+                <foreach collection="userRoleDTO.userUids" item="userUid" open="(" close=")" separator=",">#{userUid}</foreach>
+            </if>
+            <if test="userRoleDTO.mallUids != null">
+                AND mall_uid in 
+                <foreach collection="userRoleDTO.mallUids" item="mallUid" open="(" close=")" separator=",">#{mallUid}</foreach>
+            </if>
+    </delete>
+    
+    <insert id="batchInsert" parameterType="cww.world.pojo.dto.role.UserRoleRequestDTO" >
+      INSERT 
+        into tnt_biz_erp_user_role
+        (user_uid, role_uid,mall_uid,created_at, updated_at, created_by, updated_by, archive)
+      VALUES
+	    <foreach collection="userRoleDTO.userUids" item="userUid" separator=",">
+	        <foreach collection="userRoleDTO.mallUids" item="mallUid" separator=",">
+		      (#{userUid}, #{userRoleDTO.roleUid},#{mallUid},
+		      now(), now(),#{userRoleDTO.createdBy},#{userRoleDTO.updatedBy}, 1)
+	      </foreach>
+	    </foreach>
+  </insert>
+
+    <insert id="batchInsertUserRoleRelation">
+      INSERT INTO
+          tnt_biz_erp_user_role
+          (user_uid, role_uid, mall_uid, created_at, updated_at)
+      VALUES
+          <foreach collection="userRoles" item="userRole" separator=",">
+              (#{userUid}, #{userRole.roleUid} , #{userRole.mallUid}, now(), now())
+          </foreach>
+    </insert>
+
+    <update id="updateMallUidByUserRole" parameterType="cww.world.pojo.po.account.UserRolePO">
+        UPDATE
+        tnt_biz_erp_user_role
+        SET
+        mall_uid = #{mallUid},
+        updated_at = now()
+        WHERE
+        user_uid = #{userUid}
+        AND
+        role_uid = #{roleUid}
+        AND
+        mall_uid = #{oldMallUid}
+    </update>
+
+    <update id="updateUserRoleRelation" parameterType="cww.world.pojo.dto.role.UpdateUserRoleRelationDTO">
+        UPDATE
+          tnt_biz_erp_user_role
+        SET
+            role_uid = #{targetRoleUid},
+            updated_at = now(),
+            updated_by = #{updatedBy}
+        WHERE
+            user_uid = #{userUid}
+        AND
+            role_uid = #{oldRoleUid}
+        AND
+            mall_uid = #{mallUid}
+        AND
+            archive = 1
+    </update>
+
+    <select id="searchUserRole" parameterType="cww.world.pojo.po.account.UserRolePO" resultType="cww.world.pojo.po.account.UserRolePO">
+    SELECT
+        user_uid, role_uid,mall_uid,created_at, updated_at, created_by, updated_by, archive
+    FROM
+        tnt_biz_erp_user_role
+    WHERE
+        
+	<if test="roleUid != null and roleUid != ''">
+	   role_uid = #{roleUid} AND
+	</if>
+	<if test="mallUid != null and mallUid != ''">
+	   mall_uid = #{mallUid} AND
+	</if>
+	<if test="userUid != null and userUid != ''">
+	   user_uid = #{userUid} AND
+	</if>
+	archive = 1
+  </select>
+  
+  <select id="countUserRole" parameterType="cww.world.pojo.po.account.UserRolePO" resultType="java.lang.Integer">
+     SELECT
+        count(id)
+    FROM
+        tnt_biz_erp_user_role
+    WHERE
+        archive = 1
+    <if test="roleUid != null and roleUid != ''">
+      AND role_uid = #{roleUid} 
+    </if>
+    <if test="mallUid != null and mallUid != ''">
+      AND mall_uid = #{mallUid}
+    </if>
+    <if test="userUid != null and userUid != ''">
+      AND user_uid = #{userUid}
+    </if>
+  </select>
+
+    <select id="searchRoleUserList" parameterType="cww.world.pojo.dto.role.SearchRoleUserDTO" resultMap="roleUserResult">
+        SELECT
+          role.role_uid, account.`name`, account.phone, account.login_name,
+          account.gender, account.status, account.user_uid
+        FROM
+          tnt_biz_erp_user_role role
+        INNER JOIN
+          tnt_biz_erp_user_account account
+        ON role.user_uid = account.user_uid AND role.role_uid = #{roleUid}
+        <if test="loginName != null and loginName !=''">
+            AND account.login_name = #{loginName}
+        </if>
+         AND role.archive =1
+        GROUP BY account.user_uid
+        <if test="sortKey != null and sortOrder != null">
+            ORDER BY role.${sortKey} ${sortOrder}
+        </if>
+        <if test="pageNo != null and pageSize != null">
+            LIMIT #{pageOffset}, #{pageSize}
+        </if>
+    </select>
+
+    <select id="countRoleUserList" parameterType="cww.world.pojo.dto.role.SearchRoleUserDTO" resultType="java.lang.Integer">
+        SELECT
+          COUNT(DISTINCT(account.user_uid))
+        FROM
+        tnt_biz_erp_user_role role
+        INNER JOIN
+        tnt_biz_erp_user_account account
+        ON role.user_uid = account.user_uid AND role.role_uid = #{roleUid}
+        <if test="loginName != null and loginName !=''">
+            AND account.login_name = #{loginName}
+        </if>
+        AND role.archive =1
+    </select>
+
+    <select id="listRoleInfoByUserUid" resultMap="roleInfoMap">
+        SELECT role.role_name, rel.role_uid, role_desc, role_key
+        FROM tnt_biz_erp_user_role rel
+        INNER JOIN tnt_biz_erp_role role
+        ON rel.role_uid = role.role_uid
+        WHERE rel.user_uid = #{userUid}
+    </select>
+
+    <select id="countBusinessCompanyByRoleUid" parameterType="cww.world.pojo.dto.role.ListProgramInfoRequestDTO" resultType="java.lang.Integer">
+        SELECT
+          COUNT(0)
+        FROM
+          tnt_biz_erp_user_role role
+        INNER JOIN
+        tnt_biz_erp_business_manage_program program
+        ON
+          role.mall_uid = program.mall_uid
+        WHERE
+            role_uid = #{roleUid}
+        <if test="programName != null and programName != ''">
+        AND
+            program.program_name LIKE CONCAT(#{programName}, '%')
+        </if>
+    </select>
+
+   
+
+    <select id="countOtherMallRoleByUserUid" resultType="java.lang.Integer">
+        SELECT
+            COUNT(0)
+        FROM
+            tnt_biz_erp_user_role rel
+            INNER JOIN
+            tnt_biz_erp_role role
+                ON rel.role_uid = role.role_uid
+        WHERE
+            rel.user_uid = #{userUid}
+            AND
+            role.role_key in ('role02', 'role03', 'role04')
+            AND
+            role.role_key != #{roleKey}
+    </select>
+
+    <delete id="deleteUserRoleByUserUid">
+        DELETE FROM tnt_biz_erp_user_role WHERE user_uid = #{userUid}
+    </delete>
+    <delete id="deleteUserRoleByUserUidAndRoleUid" parameterType="cww.world.pojo.po.account.UserRolePO">
+        DELETE FROM tnt_biz_erp_user_role WHERE user_uid = #{userUid} AND role_uid = #{roleUid}
+        <if test="mallUid != null and mallUid != ''">
+            AND  mall_uid = #{mallUid}
+        </if>
+    </delete>
+</mapper>

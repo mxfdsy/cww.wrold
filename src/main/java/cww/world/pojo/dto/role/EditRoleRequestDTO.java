@@ -36,7 +36,6 @@ public class EditRoleRequestDTO {
     @Size(min = 1,message = "缺少权限",groups = {Insert.class, Update.class})
     private List<String> permissionUids;
 
-    @NotBlank(message = "operator_uid不能为空", groups = {Insert.class, Update.class})
     @JSONField(name = "operator_uid")
     private String operatorUid;
 

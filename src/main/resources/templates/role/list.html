@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]>
+<html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--<![endif]-->
+
+<head>
+    <meta th:remove="tag" th:include="fragments/head">
+    <title>角色维护</title>
+</head>
+
+<body class="layui-layout-body layadmin-tabspage-none">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header" th:include="fragments/header"></div>
+
+    <div class="layui-side layui-side-menu" th:include="fragments/nav-bar-side"></div>
+
+    <div class="layui-body" id="LAY_BODY">
+        <div class="layui-card layadmin-header">
+            <div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
+                <a><cite>主页</cite></a><span lay-separator="">/</span>
+                <a><cite>系统管理</cite></a><span lay-separator="">/</span>
+                <a href="/role/layout/management">角色维护</a>
+            </div>
+        </div>
+
+
+        <div class="layui-fluid">
+            <div class="layui-row">
+                <div class="layui-card">
+
+                    <div class="layui-card-header">
+                        <div class="layui-card-title">角色维护</div>
+                    </div>
+
+                    <!--查询表单 start-->
+                    <div class="layui-card-body">
+                        <form class="layui-form search-box layui-form-sm" lay-filter="search-role">
+                            <div class="layui-row">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">角色名称</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="role_name"
+                                               autocomplete="true" placeholder="请输入角色名称"
+                                               maxlength="40" class="layui-input">
+                                    </div>
+                                </div>
+
+                                <div class="layui-inline">
+                                    <button class="layui-btn layui-btn-sm layui-search-btn"
+                                            lay-submit lay-filter="search-role">搜索
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="blank-line"></div>
+
+                        <div class="layui-table-toolbox layui-clear">
+                            <div class="layui-btn-container">
+                                <div class="layui-inline">
+                                    <a class="layui-btn layui-btn-sm" href="/role/create.html">新增角色</a>
+                                </div>
+                            </div>
+
+                            <div class="layui-table-setting layui-btn-group">
+                                <button class="layui-btn layui-btn-primary layui-btn-sm setting" lay-tips="自定义列表项"
+                                        lay-filter="setting">
+                                    <i class="layui-icon">&#xe716;</i></button>
+                            </div>
+
+                        </div>
+
+                        <table class="layui-hide" id="roleManageTable" lay-filter="roleManageTable"></table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 辅助元素，一般用于移动设备下遮罩 -->
+    <div class="layadmin-body-shade" layadmin-event="shade"></div>
+</div>
+
+<footer>
+    <div th:remove="tag" th:include="fragments/footer"></div>
+    <script id="operateTemplate" type="text/html">
+        {{# if(d.is_changeable == 'YES'){ }}
+        <a class="split-line" href="/role/view/{{d.role_uid}}.html">查看</a>
+        <a class="split-line" href="/role/edit/{{d.role_uid}}.html">编辑</a>
+        <a class="split-line" lay-event="delete_role">删除</a>
+        <a class="split-line" href="/role/copy/{{d.role_uid}}.html">复制</a>
+        {{# } }}
+        {{# if(d.is_changeable != 'YES'){ }}
+        <a class="split-line" href="/role/view/{{d.role_uid}}.html">查看</a>
+        <a class="split-line" href="/role/copy/{{d.role_uid}}.html">复制</a>
+        {{# } }}
+
+    </script>
+    <script type="text/javascript" th:src="@{/scripts/pages/role/list.js?201806191621}"></script>
+</footer>
+</body>
+</html>

@@ -23,5 +23,22 @@
 		WHERE role_uid = #{roleUid} AND archive = 1
 	</select>
 
+    <insert id="batchInsert" parameterType="java.util.List" >
+        insert into tnt_biz_erp_role_permission (role_uid, permission_uid,
+        created_at, updated_at, created_by,
+        updated_by, archive)
+        values
+        <foreach collection="list" separator="," item="record">
+            (#{record.roleUid,jdbcType=INTEGER}, #{record.permissionUid,jdbcType=INTEGER},
+            now(), now(), #{record.createdBy,jdbcType=BIGINT},
+            #{record.updatedBy,jdbcType=BIGINT},1)
+        </foreach>
+    </insert>
+
+    <delete id="deleteByRoleUid">
+       DELETE FROM tnt_biz_erp_role_permission WHERE role_uid = #{roleUid}
+    </delete>
+
+
 
 </mapper>

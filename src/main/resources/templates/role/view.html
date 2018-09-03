@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]>
+<html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--<![endif]-->
+
+<head>
+    <meta th:remove="tag" th:include="fragments/head">
+    <title>查看角色</title>
+
+    <link th:href="@{/styles/pages/role/view.css}" rel="stylesheet" type="text/css"/>
+</head>
+
+<body class="layui-layout-body layadmin-tabspage-none">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header" th:include="fragments/header"></div>
+
+    <div class="layui-side layui-side-menu" th:include="fragments/nav-bar-side"></div>
+
+    <div class="layui-body">
+
+
+        <div class="layui-card layadmin-header">
+            <div class="layui-breadcrumb">
+                <a><cite>主页</cite></a>
+                <span lay-separator="">/</span>
+
+                <a><cite>系统管理</cite></a>
+                <span lay-separator="">/</span>
+
+                <a href="/role/layout/management">角色维护</a>
+                <span lay-separator="">/</span>
+
+                <a th:href="'/role/view/' + ${roleInfo.roleUid} + '.html'">查看角色</a>
+
+            </div>
+        </div>
+        <div class="layui-fluid">
+            <div class="layui-row">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        查看角色
+                    </div>
+                    <div class="layui-card-body">
+
+                        <div class="layui-tab layui-tab-card" lay-filter="component-tabs-brief">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this" th:text="|角色信息|"></li>
+                                <li th:text="|关联用户|"></li>
+                            </ul>
+
+                            <div class="layui-tab-content">
+                                <!--角色信息 start-->
+                                <div class="layui-tab-item company-info layui-show">
+                                    <blockquote class="layui-elem-quote">基础信息</blockquote>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label layui-label-required">角色名称: </label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-input-view" th:text="${roleInfo.roleName}"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label layui-label-required">角色描述: </label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-input-view" th:text="${roleInfo.roleDesc}"></div>
+                                        </div>
+                                    </div>
+
+                                    <blockquote class="layui-elem-quote">权限配置</blockquote>
+                                    <div class="layui-collapse layui-form" id="createRoleAuthority">
+
+                                    </div>
+
+                                </div>
+                                <!--角色信息 end-->
+
+                                <!--关联用户 start-->
+                                <div class="layui-tab-item company-trace ">
+                                    <!--查询关联用户 start-->
+                                    <form class="layui-form search-box layui-form-sm"
+                                          lay-filter="search-box-role-associate">
+                                        <div class="layui-row">
+                                            <div class="layui-col-sm3">
+                                                <label class="layui-form-label">登录账号</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" name="login_name"
+                                                           autocomplete="true" placeholder="请输入登录账号"
+                                                           maxlength="40" class="layui-input">
+                                                </div>
+                                                <input type="text" class="layui-inline layui-hide" name="role_uid"
+                                                       th:value="${roleInfo.roleUid}">
+                                            </div>
+
+                                            <div class="layui-inline">
+                                                <button class="layui-btn layui-btn-sm layui-search-btn"
+                                                        lay-submit lay-filter="search-role-associate">搜索
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                    <div class="blank-line"></div>
+
+                                    <!--查询关联用户 end-->
+                                    <table class="layui-hide" id="roleAssociateTable"
+                                           lay-filter="roleAssociateTable"></table>
+                                    <!--查询关联用户 end-->
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+<!-- 辅助元素，一般用于移动设备下遮罩 -->
+<div class="layadmin-body-shade" layadmin-event="shade"></div>
+
+<footer>
+    <div th:remove="tag" th:include="fragments/footer"></div>
+</footer>
+</body>
+</html>
+
+<!--权限列表-->
+<script id="createRoleAuthorityTpl" type="text/html" th:inline="text">
+
+    {{# for(var i = 0, leng = roleMenuPermission.length; i < leng; i++){ }}
+    {{# if(roleMenuPermission[i].menuType != 'TYP_BUILT_IN'){ }}
+    <div class="layui-colla-item">
+        <!--一级权限菜单-->
+        <h2 class="layui-colla-title layui-colla-title-hasmore layui-this" lmf-event="role-icon-show">
+
+            <input
+                    lay-filter="role-first-menu"
+                    type="checkbox"
+                    disabled
+                    name=""
+                    first-menu-name="role-first-menu"
+                    lay-skin="primary"
+                    value="{{ roleMenuPermission[i].menuId }}"
+                    title="{{roleMenuPermission[i].menuName }}"
+            >
+
+            <div class=" layui-input-inline layui-colla-title-more">
+                <span>收起</span>
+                <i class='layui-icon layui-icon-up'></i>
+            </div>
+
+        </h2>
+
+        <div class="layui-colla-content layui-show">
+            {{# for(var j = 0, len = roleMenuPermission[i].children.length; j < len; j++){ }}
+            {{# if(roleMenuPermission[i].children[j].menuType != 'TYP_BUILT_IN'){ }}
+            <!--二级权限菜单-->
+            <div class="layui-row">
+                <div class="layui-input-inline role-second-menu">
+
+                    <input type="checkbox"
+                           name=""
+                           second-menu-name="role-second-menu"
+                           disabled
+                           lay-skin="primary"
+                           value="{{ roleMenuPermission[i].children[j].menuId }}"
+                           title="{{ roleMenuPermission[i].children[j].menuName }}"
+                           lay-filter="role-second-menu"
+                           first-menu-uid="{{ roleMenuPermission[i].menuId }}"
+                    >
+                </div>
+                <!--三级权限菜单-->
+                {{# for(var k = 0, lenth =roleMenuPermission[i].children[j].permissions.length; k < lenth; k++){ }}
+
+                <div class="layui-input-inline role-third-menu">
+                    <div class="layui-input-inline">
+                        {{# if(roleMenuPermission[i].children[j].permissions[k].isRoleSelected == true){ }}
+                        <input type="checkbox"
+                               name="permission_uid"
+                               third-menu-name="role-third-menu"
+                               disabled
+                               checked
+                               lay-skin="primary"
+                               value="{{roleMenuPermission[i].children[j].permissions[k].permissionUid}}"
+                               title="{{roleMenuPermission[i].children[j].permissions[k].permissionName}}"
+                               lay-filter="role-third-menu"
+                               first-menu-uid="{{ roleMenuPermission[i].menuId }}"
+                               second-menu-uid="{{ roleMenuPermission[i].children[j].menuId }}"
+                        >
+                        {{# } }}
+                        {{# if(roleMenuPermission[i].children[j].permissions[k].isRoleSelected == false){ }}
+                        <input type="checkbox"
+                               name="permission_uid"
+                               third-menu-name="role-third-menu"
+                               disabled
+                               lay-skin="primary"
+                               value="{{roleMenuPermission[i].children[j].permissions[k].permissionUid}}"
+                               title="{{roleMenuPermission[i].children[j].permissions[k].permissionName}}"
+                               lay-filter="role-third-menu"
+                               first-menu-uid="{{ roleMenuPermission[i].menuId }}"
+                               second-menu-uid="{{ roleMenuPermission[i].children[j].menuId }}"
+                        >
+                        {{# } }}
+                    </div>
+                </div>
+                {{# } }}
+            </div>
+            {{# } }}
+            {{# } }}
+        </div>
+
+    </div>
+    {{# } }}
+    {{# } }}
+
+</script>
+<script type="text/javascript" th:inline="javascript">
+    var roleInfo = [[${roleInfo}]];
+    var roleMenuPermission = [[${menuPermission}]];
+//     console.log(roleInfo);
+//     console.log(roleMenuPermission);
+</script>
+<script type="text/javascript" th:src="@{/scripts/pages/role/view.js?201806231513}"></script>
