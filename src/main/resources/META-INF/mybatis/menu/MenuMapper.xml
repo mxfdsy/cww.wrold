@@ -46,4 +46,17 @@
 	</update>
 
 
+	<select id="listAllParentMenus" resultMap="menuMap">
+		SELECT id, name, menu_icon, menu_icon_checked, sort_order, menu_type FROM tnt_biz_erp_menu WHERE layer=1 AND archive=1 ORDER BY sort_order
+	</select>
+
+	<select id="listMenuByParentIds" resultMap="menuMap">
+		SELECT id, name, parent ,skip_url, sort_order, menu_type
+		FROM tnt_biz_erp_menu
+		WHERE
+		archive=1
+		AND parent in <foreach collection="moduleids" open="(" close=")" item="id" separator=",">#{id}</foreach>
+		ORDER BY sort_order
+	</select>
+
 </mapper>

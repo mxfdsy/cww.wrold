@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cww.world.mapper.menu.RolePermissionMapper">
+
+    <resultMap type="cww.world.pojo.dto.role.RolePermissionInfoDTO" id="rolePermissionMap">
+        <result column="permission_uid" property="permissionUid"/>
+        <result column="permission_key" property="permissionKey"/>
+        <result column="permission_name" property="permissionName"/>
+        <result column="permission_desc" property="permissionDesc"/>
+        <result column="permission_module" property="permissionModule"/>
+
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="udpated_by" property="updatedBy"/>
+
+        <result column="role_uid" property="roleUid"/>
+    </resultMap>
+
+    <select id="listPermissionUidsByRoleId" resultType="java.lang.String">
+		SELECT permission_uid
+		FROM tnt_biz_erp_role_permission
+		WHERE role_uid = #{roleUid} AND archive = 1
+	</select>
+
+
+</mapper>

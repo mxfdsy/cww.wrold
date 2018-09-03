@@ -14,4 +14,9 @@ public interface MenuMapper {
 
     void updateMenuSortAndCode(@Param("id") Integer id, @Param("sort") Integer sort, @Param("code") String code);
 
+
+    List<MenuPO> listAllParentMenus();
+
+    List<MenuPO> listMenuByParentIds(@Param("moduleids") List<Integer> moduleids);
+
 }

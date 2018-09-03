@@ -5,7 +5,12 @@ import com.alibaba.fastjson.JSONObject;
 import cww.world.common.constant.BaseCode;
 import cww.world.common.constant.Constants;
 import cww.world.common.util.ResultBuilderUtils;
+import cww.world.common.validate.EntityValidator;
+import cww.world.common.validate.ValidateResult;
+import cww.world.common.validate.group.Insert;
 import cww.world.controller.BaseController;
+import cww.world.pojo.dto.menu.InsertChildrenMenuDTO;
+import cww.world.pojo.dto.menu.ListMenuRequestDTO;
 import cww.world.pojo.dto.menu.MenuDTO;
 import cww.world.service.menu.MenuService;
 import org.apache.commons.lang3.StringUtils;
@@ -38,6 +43,13 @@ public class MenuController extends BaseController {
     @Autowired
     private MenuService menuService;
 
+    @RequestMapping(value = "/menu/create", method = RequestMethod.GET)
+    public String createMenu(HttpServletRequest request, Model model) {
+        List<MenuDTO> menuDTOS = menuService.listAllParentMenus();
+        model.addAttribute("parentMenus", menuDTOS);
+        return "menu/menuCreate";
+    }
+
 
     @RequestMapping(value = "/menu/insertModule", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     @ResponseBody
@@ -47,10 +59,32 @@ public class MenuController extends BaseController {
         if (StringUtils.isBlank(menuDTO.getName())) {
             return ResultBuilderUtils.buildError(BaseCode.INVALID_ARGUMENT, "缺少模块名称");
         }
-
-//        menuDTO.setCreatedBy(SessionGetter.getLoginUserUid());
-
         return buildSuccessOrErrorResultByBaseCode(menuService.insertModule(menuDTO));
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/menu/insertChildrenMenu", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public String insertChildrenMenu(@RequestBody String payload){
+        logger.info("创建子级菜单，入参：{}", payload);
+        InsertChildrenMenuDTO request = JSONObject.parseObject(payload, InsertChildrenMenuDTO.class);
+        ValidateResult validateResult = EntityValidator.validate(request, Insert.class);
+        if (validateResult.hasError()) {
+            return ResultBuilderUtils.buildError(BaseCode.INVALID_ARGUMENT, validateResult.getErrorMessages());
+        }
+
+        //校驗權限是否合法
+        //校验模块是否存在
+        //校验是否已经存在
+        return buildSuccessOrErrorResultByBaseCode(menuService.insertChildrenMenu(request));
+    }
+
+    @RequestMapping(value = "/menu/listMenu", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String listMenu(@RequestBody  String payload){
+        logger.info("获取菜单配置页菜单列表，入参:{}", payload);
+        ListMenuRequestDTO requestDTO = JSONObject.parseObject(payload, ListMenuRequestDTO.class);
+        return ResultBuilderUtils.buildSuccess(menuService.listModuleMenu(requestDTO));
     }
 
 

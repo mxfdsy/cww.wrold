@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]>
+<html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--<![endif]-->
+
+<head>
+    <meta th:remove="tag" th:include="fragments/head">
+    <title>菜单管理</title>
+    <style>
+        .layui-layer-content .layui-form {
+            margin: 10px 20px 10px 10px;
+        }
+
+        .layui-layer-content .layui-badge-rim {
+            height: 36px;
+            line-height: 36px;
+            padding: 0 10px;
+        }
+
+        .changeParentSelect .layui-form-select dl{
+            max-height: 110px;
+            position: static;
+        }
+
+
+    </style>
+</head>
+
+<body class="layui-layout-body layadmin-tabspage-none">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header" th:include="fragments/header"></div>
+    <div class="layui-side layui-side-menu" th:include="fragments/nav-bar-side"></div>
+
+    <div class="layui-body" id="LAY_BODY">
+        <div class="layui-card layadmin-header">
+            <div class="layui-breadcrumb">
+
+                <a>主页</a>
+                <span lay-separator="">/</span>
+
+                <a>系统管理</a>
+                <span lay-separator="">/</span>
+
+                <a href="/menu/create">菜单管理</a>
+               
+            </div>
+        </div>
+
+
+        <div class="layui-fluid">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-card">
+
+                    <div class="layui-card-header">
+                        <div class="layui-card-title">菜单管理</div>
+                    </div>
+
+
+                    <div class="layui-card-body">
+                        <button class="layui-btn layui-btn-sm " data-btn-type="addModule">添加模块</button>
+
+
+                        <div id="permissionContainer" style="background-color: #f2f2f2;padding: 10px;margin-top: 10px">
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 辅助元素，一般用于移动设备下遮罩 -->
+    <div class="layadmin-body-shade" layadmin-event="shade"></div>
+</div>
+
+
+<!-- 添加模块 -->
+<script id="addModule" type="text/html" th:inline="text">
+    <form class="layui-form" role="addModuleForm" style="overflow:hidden;">
+        <input type="hidden" name="layer" value="1">
+        <div class="layui-form-item" style="margin-top:20px ">
+            <label class="layui-form-label">模块名：</label>
+
+            <div class="layui-input-block">
+                <input name="name" type="text" class="layui-input" lay-verify="*" lay-errorText="请输入模块名称"
+                       placeholder="输入模块名">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">图标：</label>
+
+            <div class="layui-input-block">
+                <input name="menu_icon" type="text" class="layui-input" lay-verify="*" lay-errorText="请输入图标地址"
+                       placeholder="icon url">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">高亮图标：</label>
+
+            <div class="layui-input-block">
+                <input name="menu_icon_checked" type="text" class="layui-input" lay-verify="*" lay-errorText="请输入高亮图标地址"
+                       placeholder="checked icon url">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序：</label>
+
+            <div class="layui-input-block">
+                <input name="sort" type="number" class="layui-input" lay-verify="*" lay-errorText="请输入排序数字，按此字段倒序"
+                       placeholder="请输入排序数字，按此字段倒序">
+            </div>
+        </div>
+        <input type="submit" lay-filter="addModuleForm" lay-submit value="" class="layui-hide">
+    </form>
+</script>
+
+<!-- 修改模块 -->
+<script id="editModule" type="text/html" th:inline="text">
+    <form class="layui-form" role="editModuleForm" lay-filter="editModuleForm" style="overflow:hidden;">
+
+        <div class="layui-form-item" style="margin-top:20px ">
+            <label class="layui-form-label">模块名：</label>
+
+            <div class="layui-input-block">
+                <input name="name" type="text" class="layui-input" lay-verify="*" lay-errorText="请输入模块名称"
+                       placeholder="输入模块名">
+                <input name="menu_id" type="hidden">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">图标：</label>
+
+            <div class="layui-input-block">
+                <input name="menu_icon" type="text" class="layui-input" lay-verify="*" lay-errorText="请输入图标地址"
+                       placeholder="icon url">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">高亮图标：</label>
+
+            <div class="layui-input-block">
+                <input name="menu_icon_checked" type="text" class="layui-input" lay-verify="*" lay-errorText="请输入高亮图标地址"
+                       placeholder="checked icon url">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序：</label>
+
+            <div class="layui-input-block">
+                <input name="sort" type="number" class="layui-input" lay-errorText="请输入排序数字，按此字段倒序"
+                       placeholder="请输入排序数字，按此字段倒序">
+            </div>
+        </div>
+        <input type="submit" lay-filter="editModuleForm" lay-submit value="" class="layui-hide">
+
+    </form>
+</script>
+
+
+<!--修改菜单-列表-->
+<script id="permissionsListTpl" type="text/html" th:inline="text">
+
+    {{# for(var i = 0, leng = d.length; i < leng; i++){ }}
+    <div class="layui-card" style="padding-bottom:10px;">
+        <div class="layui-card-header">
+
+            <div class="layui-card-title">{{ d[i].menu_name }}</div>
+            <div class="layui-card-more">
+
+
+                <div class="layui-btn-container">
+                    <div class="layui-btn-group">
+                        <button class="layui-btn layui-btn-sm" data-btn-type="editModule" data-id="{{ d[i].menu_id }}"
+                                data-name="{{ d[i].menu_name }}" data-menu_id="{{ d[i].menu_id }}"
+                                data-menu_icon="{{ d[i].menu_icon }}"  data-sort="{{ d[i].sort }}"
+                                data-menu_icon_checked="{{ d[i].menu_icon_checked }}">修改模块
+                        </button>
+                        <button class="layui-btn layui-btn-sm" data-btn-type="delLayer2ToDB"
+                                data-id="{{ d[i].menu_id }}" data-name="{{ d[i].menu_name }}">删除模块
+                        </button>
+
+
+                    </div>
+                    <div class="layui-btn-group">
+                        <button class="layui-btn layui-btn-sm" data-btn-type="addLayer2ToDB"
+                                data-id="{{ d[i].menu_id }}" data-name="{{ d[i].menu_name }}">添加页面
+                        </button>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+        <div class="layui-card-body" style="background-color: #F2F2F2;margin: 10px;padding: 10px;">
+            {{# for(var j = 0, len = d[i].children.length; j < len; j++){ }}
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <div class="layui-card-title">{{ d[i].children[j].menu_name }}</div>
+                    <div class="layui-card-more">
+                        <div class="layui-btn-group">
+                            <button class="layui-btn layui-btn-sm" data-btn-type="editMenu2ToDB"
+                                    data-name="{{ d[i].children[j].menu_name }}"
+                                    data-menu_id="{{ d[i].children[j].menu_id }}"
+                                    data-skip_url="{{ d[i].children[j].skip_url }}"  data-sort="{{ d[i].children[j].sort }}">修改页面
+                            </button>
+                            <button class="layui-btn layui-btn-sm" data-btn-type="changeMenuParent"
+                                    data-name="{{ d[i].children[j].menu_name }}"
+                                    data-menu_id="{{ d[i].children[j].menu_id }}"
+                                    data-skip_url="{{ d[i].children[j].skip_url }}"  data-sort="{{ d[i].children[j].sort }}">切换模块
+                            </button>
+                            <button class="layui-btn layui-btn-sm" data-btn-type="delMenu2ToDB"
+                                    data-name="{{ d[i].children[j].menu_name }}"
+                                    data-menu_id="{{ d[i].children[j].menu_id }}">删除页面
+                            </button>
+                        </div>
+                        <div class="layui-btn-group">
+
+                            <button class="layui-btn layui-btn-sm" data-btn-type="addpermissionToDB"
+                                    data-module="{{ d[i].children[j].menu_name }}"
+                                    data-menu_id="{{ d[i].children[j].menu_id }}" data-id="{{d[i].menu_id }}">添加权限
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-card-body">
+                    <table class="layui-table">
+                        <thead>
+                        <tr>
+                            <th>权限key</th>
+                            <th>权限名称</th>
+                            <th>描述</th>
+                            <th width="60">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{# for(var k = 0, lenth =d[i].children[j].permissions.length; k < lenth; k++){ }}
+
+                        <tr>
+                            <td>{{d[i].children[j].permissions[k].permission_key}}</td>
+                            <td>{{d[i].children[j].permissions[k].permission_name}}</td>
+                            <td>{{d[i].children[j].permissions[k].permission_desc}}</td>
+                            <td>
+                                <button class="layui-btn layui-btn-sm" data-btn-type="delPermissionKey"
+                                        data-name="{{ d[i].children[j].menu_name }}"
+                                        data-permission_uid="{{d[i].children[j].permissions[k].permission_uid}}"
+                                        data-permission_name="{{d[i].children[j].permissions[k].permission_name}}"
+                                >删除
+                                </button>
+                            </td>
+                        </tr>
+                        <!--<div class=" layui-form-checkbox layui-form-checked layui-checkbox-disbaled layui-disabled"-->
+                        <!--lay-skin="primary" title="{{d[i].children[j].permissions[k].permission_desc}}"><span>{{d[i].children[j].permissions[k].permission_name}}</span><i-->
+                        <!--class="layui-icon layui-icon-ok"></i></div>-->
+                        {{# } }}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {{# } }}
+        </div>
+    </div>
+    {{# } }}
+</script>
+
+
+<!--添加权限-->
+<script id="addPermission" type="text/html" th:inline="text">
+    <form class="layui-form" role="addPermission" lay-filter="addPermission" style="margin-top:20px;overflow:hidden;">
+
+        <input name="permission_module" type="hidden">
+        <input name="permission_type" type="hidden">
+        <input name="parent_menu_id" type="hidden">
+        <input name="menu_id" type="hidden">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限key：</label>
+            <div class="layui-input-block">
+                <input name="permission_key" type="text"
+                       placeholder="示例: tnt_vendor_store(唯一)" lay-verify="*" lay-errorText="请输入权限key" required class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限名称：</label>
+            <div class="layui-input-block">
+                <input name="permission_name"
+                       placeholder="示例: 门店管理(唯一)" lay-verify="*" lay-errorText="请输入权限名称" type="text" required class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限描述：</label>
+            <div class="layui-input-block">
+                <input name="permission_desc"
+                       placeholder="示例: 门店管理编辑" lay-verify="*" lay-errorText="请输入权限描述" type="text" required class="layui-input">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限Keys：</label>
+
+            <div class="layui-input-block">
+                {{# for(var i = 0, lenth = d.data.length; i < lenth; i++){ }}
+
+                <span class="layui-badge-rim">{{ d.data[i]}}</span>
+                {{# } }}
+            </div>
+        </div>
+        <input type="submit" lay-filter="addPermission" lay-submit value="" class="layui-hide">
+    </form>
+</script>
+<!--添加页面-->
+<script id="addPage" type="text/html" th:inline="text">
+    <form class="layui-form" role="addPage" lay-filter="addPage" style="margin-top:20px;overflow:hidden;">
+        <input type="hidden" name="modul_name">
+        <input type="hidden" name="modul_id">
+        <div class="layui-form-item">
+            <label class="layui-form-label">页面名：</label>
+            <div class="layui-input-block">
+                <input name="menu_name" type="text" class="layui-input" lay-verify="*" lay-errorText="请输入页面名称"
+                       placeholder="示例：门店管理(唯一)">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">跳转地址：</label>
+            <div class="layui-input-block">
+                <input name="skip_url" type="text" class="layui-input" lay-verify="*" lay-errorText="请输入页面跳转地址"
+                       placeholder="示例: /vendor/layout/store(唯一)">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限key：</label>
+            <div class="layui-input-block">
+                <input name="permission_key" type="text" lay-verify="*" lay-errorText="请输入页面权限key"
+                       placeholder="示例: tnt_vendor_store(唯一)" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限名：</label>
+            <div class="layui-input-block">
+                <input name="permission_name" type="text" lay-verify="*" lay-errorText="请输入页面权限名"
+                       placeholder="示例: 门店管理(唯一)" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序：</label>
+
+            <div class="layui-input-block">
+                <input name="sort" type="number" class="layui-input"  lay-errorText="请输入排序数字，按此字段倒序"
+                       placeholder="请输入排序数字，按此字段倒序">
+            </div>
+        </div>
+        <input type="submit" lay-filter="addPage" lay-submit value="" class="layui-hide">
+
+    </form>
+
+</script>
+
+<!--修改页面-->
+<script id="editPage" type="text/html" th:inline="text">
+    <form class="layui-form" role="editMenuForm" lay-filter="editMenuForm" style="margin-top:20px;overflow:hidden;">
+        <div class="layui-form-item">
+            <label class="layui-form-label">页面名：</label>
+            <div class="layui-input-block">
+                <input name="name" type="text" class="layui-input" lay-verify="*" lay-errorText="请输入页面名称"
+                       placeholder="示例：门店管理(唯一)">
+                <input name="menu_id" type="hidden">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">跳转地址：</label>
+            <div class="layui-input-block">
+                <input name="skip_url" type="text" lay-verify="*" lay-errorText="请输入页面跳转地址"
+                       placeholder="示例: /vendor/layout/store(唯一)" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序：</label>
+
+            <div class="layui-input-block">
+                <input name="sort" type="number" class="layui-input" lay-verify="*" lay-errorText="请输入排序数字，按此字段倒序"
+                       placeholder="请输入排序数字，按此字段倒序">
+            </div>
+        </div>
+        <input type="submit" lay-filter="editMenuForm" lay-submit value="" class="layui-hide">
+
+    </form>
+
+</script>
+
+<!--切换模块-->
+<script id="changeParent" type="text/html" th:inline="text">
+    <form class="layui-form" role="changeParentForm" lay-filter="changeParentForm" style="margin-top:20px;overflow:hidden;">
+        <div class="layui-form-item">
+            <label class="layui-form-label">目标模块：</label>
+            <div class="layui-input-block changeParentSelect">
+                <select name="target_parent_menu_id" id="review-mall-drop-down" lay-filter="review-mall-drop-down">
+                    <option th:each="parentMenu:${parentMenus}"
+                            th:value="${parentMenu.id}"
+                            th:text="${parentMenu.name}"
+                    ></option>
+                </select>
+                <input name="source_children_menu_id" value="{{d.menu_id}}" type="hidden">
+            </div>
+        </div>
+
+        <input type="submit" lay-filter="changeParentForm" lay-submit value="" class="layui-hide">
+
+    </form>
+
+</script>
+
+<script type="text/javascript" th:inline="javascript">
+    var parentMenus = [[${parentMenus}]];
+    console.log(parentMenus);
+</script>
+
+<footer>
+    <div th:remove="tag" th:include="fragments/footer"></div>
+    <script th:src="@{/scripts/pages/menu/createMenu.js?201806191429}"></script>
+</footer>
+</body>
+</html>
