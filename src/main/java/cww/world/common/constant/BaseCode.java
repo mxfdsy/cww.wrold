@@ -17,6 +17,8 @@ public enum BaseCode {
 
     DATE_ERROR(11003, "数据异常"),
 
+    DB_INSERT_ERROR(19999, "数据库插入错误"),
+
     INVALID_ARGUMENT(11001, "请求参数错误");
 
     private int code;
