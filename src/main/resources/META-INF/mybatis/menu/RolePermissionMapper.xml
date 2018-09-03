@@ -39,6 +39,20 @@
        DELETE FROM tnt_biz_erp_role_permission WHERE role_uid = #{roleUid}
     </delete>
 
+    <select id="listUserRolePermissionKey" resultType="string">
+        SELECT
+        DISTINCT permission_key
+        FROM
+        tnt_biz_erp_role_permission role
+        INNER JOIN
+        tnt_biz_erp_permission permission ON role.permission_uid = permission.permission_uid
+        AND permission.archive = 1
+        WHERE
+        role.role_uid IN <foreach collection="roleUids" open="(" close=")" item="roleUid" separator=",">#{roleUid}</foreach>
+        AND role.archive = 1
+    </select>
+
+
 
 
 </mapper>

@@ -19,4 +19,7 @@ public interface MenuMapper {
 
     List<MenuPO> listMenuByParentIds(@Param("moduleids") List<Integer> moduleids);
 
+    List<MenuPO> listMenuByIds(@Param("menuIds")List<Integer> menuIds);
+
+
 }
