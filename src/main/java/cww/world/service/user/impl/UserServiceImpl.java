@@ -55,6 +55,7 @@ public class UserServiceImpl implements UserService {
         session.setAttribute(Constants.USER_INFO, loginUser);
 
 
+
         JSONObject res = new JSONObject();
         String lastRedirectUrl = (String) session.getAttribute(Constants.REDIRECT_URL);
         if (StringUtils.isNotBlank(lastRedirectUrl)) {
