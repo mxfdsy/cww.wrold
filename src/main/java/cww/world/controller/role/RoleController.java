@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import cww.world.common.constant.BaseCode;
 import cww.world.common.constant.Constants;
 import cww.world.common.exception.BaseException;
+import cww.world.common.interceptor.annotation.HasPermission;
 import cww.world.common.util.ResultBuilderUtils;
 import cww.world.common.validate.EntityValidator;
 import cww.world.common.validate.ValidateResult;
@@ -105,6 +106,7 @@ public class RoleController  extends BaseController {
 
     @ResponseBody
     @RequestMapping(value = "/getList", method = RequestMethod.POST, produces = JSON_UTF8)
+    @HasPermission
     public String getList(@RequestBody String payload) {
         if (StringUtils.isEmpty(payload)) {
             logger.error("查询角色列表请求参数为空");
