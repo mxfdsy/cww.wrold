@@ -52,6 +52,9 @@ public class UserServiceImpl implements UserService {
 
         HttpSession session = request.getSession();
 
+        session.setAttribute(Constants.MENU, menu);
+        session.setAttribute(Constants.CHILDREN_MENU_MAP, childrenMenuMap);
+        session.setAttribute(Constants.PARENT_MENU_MAP, parentMenuMap);
         session.setAttribute(Constants.USER_INFO, loginUser);
 
 

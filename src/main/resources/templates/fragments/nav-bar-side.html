@@ -1,6 +1,6 @@
 <div class="layui-side-scroll" th:if="${ session.login_user_menu!=null && #arrays.length(session.login_user_menu)>0}">
     <div class="layui-logo">
-        <span>欧亚达ERP管理系统</span>
+        <span th:text = "${SYS_NAME}"></span>
     </div>
     <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="system-side-menu" lay-filter="system-side-menu">
         <li class="layui-nav-item" th:classappend="${session.menuDTO}?'':'layui-this'">
