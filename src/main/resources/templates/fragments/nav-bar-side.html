@@ -1,10 +1,12 @@
 <div class="layui-side-scroll" th:if="${ session.login_user_menu!=null && #arrays.length(session.login_user_menu)>0}">
     <div class="layui-logo">
-        <span th:text = "${SYS_NAME}"></span>
+        <a th:href="@{/login/login}">
+            <span th:text = "${SYS_NAME}"></span>
+        </a>
     </div>
     <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="system-side-menu" lay-filter="system-side-menu">
         <li class="layui-nav-item" th:classappend="${session.menuDTO}?'':'layui-this'">
-            <a th:href="@{/dashboard/layout/index.html}" lay-direction="2">
+            <a th:href="@{/login/login}" lay-direction="2">
                 <cite>工作台</cite>
             </a>
         </li>

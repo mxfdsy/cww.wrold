@@ -12,6 +12,7 @@ import cww.world.pojo.po.role.RolePermissionPO;
 import cww.world.service.menu.MenuService;
 import cww.world.service.menu.PermissionService;
 import cww.world.service.menu.RolePermissionService;
+import cww.world.service.role.RoleService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,10 @@ public class MenuServiceImpl implements MenuService {
 
     @Autowired
     private RolePermissionService rolePermissionService;
+
+
+    @Autowired
+    private RoleService roleService;
 
 
 
@@ -94,6 +99,7 @@ public class MenuServiceImpl implements MenuService {
             return BaseCode.DB_INSERT_ERROR;
         }
         //给系统管理员加上相应权限
+        addPermissionToRole(Constants.SYSTEM_ADMIN_KEY, permission.getPermissionKey());
         return BaseCode.SUCESS;
     }
 

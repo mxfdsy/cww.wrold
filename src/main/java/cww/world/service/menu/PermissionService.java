@@ -26,7 +26,7 @@ public interface PermissionService {
 //
 //    List<PermissionPO> getPermissionByPermissionKeys(List<String> permissionKeys);
 //
-//    PermissionPO getPermissionByPermissionKey(String permissionKey);
+    PermissionPO getPermissionByPermissionKey(String permissionKey);
 //
 //    void updatePermissionParentMenuId(ChangeParentMenuRequestDTO changeParentMenuRequestDTO);
 }

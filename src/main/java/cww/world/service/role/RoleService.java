@@ -19,7 +19,7 @@ public interface RoleService {
 
     void deleteRole(DeleteRoleRequestDTO request);
 //
-//    RolePO searchRoleByUidOrKey(String roleUid, String roleKey);
+    RolePO searchRoleByUidOrKey(String roleUid, String roleKey);
 //
 //    void updateRole(EditRoleRequestDTO request);
 //

@@ -45,4 +45,17 @@
 		AND archive=1
 	</select>
 
+	<select id="getPermissionByPermissionKey" resultMap="permissionMap">
+		SELECT
+		id, permission_key, permission_name, permission_desc, permission_module, menu_id, parent_menu_id, permission_uid
+		FROM
+		tnt_biz_erp_permission
+		WHERE
+		permission_key = #{permissionKey}
+		AND
+		archive = 1
+	</select>
+
+
+
 </mapper>

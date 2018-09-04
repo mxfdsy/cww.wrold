@@ -120,4 +120,10 @@ public class RoleServiceImpl extends BaseController implements RoleService {
         rolePermissionService.deleteByRoleUid(role.getRoleUid());
     }
 
+    @Override
+    public RolePO searchRoleByUidOrKey(String roleUid, String roleKey) {
+        return roleMapper.queryRoleByUidOrKey(roleUid, roleKey);
+    }
+
+
 }
