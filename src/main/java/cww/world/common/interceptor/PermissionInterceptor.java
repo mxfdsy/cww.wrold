@@ -2,8 +2,6 @@ package cww.world.common.interceptor;
 
 
 
-import cww.world.common.constant.BaseCode;
-import cww.world.common.exception.BaseException;
 import cww.world.common.interceptor.annotation.HasPermission;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;

@@ -5,8 +5,10 @@ import cww.world.pojo.dto.menu.InsertChildrenMenuDTO;
 import cww.world.pojo.dto.menu.ListMenuRequestDTO;
 import cww.world.pojo.dto.menu.MenuDTO;
 import cww.world.pojo.dto.menu.ModuleDTO;
+import cww.world.pojo.vo.MenuVO;
 
 import java.util.List;
+import java.util.Set;
 
 
 public interface MenuService {
@@ -34,5 +36,9 @@ public interface MenuService {
     List<ModuleDTO> listModuleMenu(ListMenuRequestDTO requestDTO);
 
     List<MenuDTO> listAllParentMenus();
+
+    List<MenuVO> listMenuByPermissionKeys(Set<String> permissionKeys);
+
+    void addPermissionToRole(String roleKey, String PermissionKey);
 
 }

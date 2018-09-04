@@ -2,6 +2,7 @@ package cww.world.mapper.account;
 
 
 import cww.world.pojo.dto.role.*;
+import cww.world.pojo.po.account.UserRolePO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -10,7 +11,7 @@ import java.util.List;
 @Mapper
 public interface UserRoleMapper {
 
-//    List<UserRolePO> listUserRole(@Param("userUid") String userUid);
+    List<UserRolePO> listUserRole(@Param("userUid") String userUid);
 
     List<RoleUserCountDTO> listRoleUserCount(@Param("roleUids") List<String> roleUids);
 

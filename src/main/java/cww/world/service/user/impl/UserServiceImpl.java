@@ -7,10 +7,13 @@ import cww.world.common.exception.BaseException;
 import cww.world.common.util.ResultBuilderUtils;
 import cww.world.mapper.user.UserPOMapper;
 import cww.world.pojo.dto.PageableRequestDTO;
-import cww.world.pojo.dto.user.ListUserDTO;
-import cww.world.pojo.dto.user.UpdateUserStatusRequestDTO;
-import cww.world.pojo.dto.user.UserInfoResponseDTO;
+import cww.world.pojo.dto.user.*;
+import cww.world.pojo.po.account.UserAccountPO;
 import cww.world.pojo.po.user.UserPO;
+import cww.world.pojo.vo.MenuVO;
+import cww.world.service.account.UserRoleService;
+import cww.world.service.menu.MenuService;
+import cww.world.service.menu.RolePermissionService;
 import cww.world.service.user.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -20,9 +23,8 @@ import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -34,6 +36,16 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserPOMapper userPOMapper;
 
+    @Autowired
+    private UserRoleService userRoleService;
+
+    @Autowired
+    private RolePermissionService rolePermissionService;
+
+    @Autowired
+    private MenuService menuService;
+
+
     @Override
     public List<UserPO> userList(ListUserDTO listUserDTO) {
         return userPOMapper.listUserInfo(listUserDTO);
@@ -41,15 +53,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String login(UserPO loginUserRequest, HttpServletRequest request) {
-        UserPO loginUser = userPOMapper.getUserInfoByLoginName(loginUserRequest.getLoginName());
-        if (loginUser == null) {
-            throw new BaseException(BaseCode.INVALID_ARGUMENT, "您还未注册哦，请先注册");
+
+
+        LoginUserDTO loginUser = getLoginUserInfo(loginUserRequest.getLoginName(), loginUserRequest);
+
+        List<MenuVO> menu = menuService.listMenuByPermissionKeys(loginUser.getPermissionInfo());
+        if (CollectionUtils.isEmpty(menu)) {
+            throw new BaseException(BaseCode.MENU_DO_NOT_EXIST, "用户没有菜单");
         }
 
-        if (!loginUserRequest.getPassword().equals(loginUser.getPassword())) {
-                    throw new BaseException(BaseCode.INVALID_ARGUMENT, "密码输错了哦,请重新输入");
-        }
+        Map<String, MenuVO> childrenMenuMap = menu.stream().filter(ele -> ele.getLayer() == 2).collect(Collectors.toMap(MenuVO::getSkipUrl, Function.identity()));
 
+        Map<Integer, MenuVO> parentMenuMap = menu.stream().filter(ele -> ele.getLayer() == 1).collect(Collectors.toMap(MenuVO::getId, Function.identity()));
+
+//        List<SimpleMallDTO> userMallList = businessProgramService.listSimpleMallByUserUid(loginUser.getUserUid());
+//        if (!CollectionUtils.isEmpty(userMallList)) {
+//            userMallList.sort(Comparator.comparing(SimpleMallDTO::getMallUid));
+//        }
         HttpSession session = request.getSession();
 
         session.setAttribute(Constants.MENU, menu);
@@ -141,5 +161,53 @@ public class UserServiceImpl implements UserService {
 
         //TODO 对于异常的数据发送消息记录
         return normalUids;
+    }
+
+
+    private LoginUserDTO getLoginUserInfo(String loginNam,UserPO loginUser) {
+        UserPO userAccountInfo = userPOMapper.getUserInfoByLoginName(loginNam);
+
+        if (userAccountInfo == null) {
+            throw new BaseException(BaseCode.INVALID_ARGUMENT, "您还未注册哦，请先注册");
+        }
+
+        if (!userAccountInfo.getPassword().equals(loginUser.getPassword())) {
+            throw new BaseException(BaseCode.INVALID_ARGUMENT, "密码输错了哦,请重新输入");
+        }
+
+        List<LoginRoleDTO> userRoleInfo = userRoleService.listUserRoleInfo(userAccountInfo.getUserUid());
+
+        LoginUserDTO userInfo = new LoginUserDTO();
+        userInfo.setUserUid(userAccountInfo.getUserUid());
+        userInfo.setName(userAccountInfo.getUserName());
+        userInfo.setLoginName(userAccountInfo.getLoginName());
+        userInfo.setPhone(userAccountInfo.getPhone());
+        userInfo.setIdentity(userAccountInfo.getIdentity());
+
+        userInfo.setRoleInfo(userRoleInfo);
+        userInfo.setPermissionInfo(
+                rolePermissionService.listUserRolePermissionKey(
+                        userRoleInfo.stream().map(LoginRoleDTO::getRoleUid).collect(Collectors.toList())));
+//
+//        String mallUserUid = mallErpUserRelationService.getMallUserUidByERPUserUid(userInfo.getUserUid());
+//
+//        if (StringUtils.isBlank(mallUserUid)) {
+//            return userInfo;
+//        }
+//
+//        userInfo.setMallUserUid(mallUserUid);
+//
+//        VendorInfoDTO vendorInfoDTO = vendorService.getVendorInfoByUserUid(mallUserUid);
+//
+//        if (null != vendorInfoDTO) {
+//            userInfo.setMallVendorUid(vendorInfoDTO.getVendorUid());
+//        }
+//
+//        ErpVendorPO erpVendorInfoDTO = erpVendorService.getErpVendorInfoByUserUid(userAccountInfo.getUserUid());
+//
+//        if (null != erpVendorInfoDTO) {
+//            userInfo.setErpVendorUid(erpVendorInfoDTO.getErpVendorUid());
+//        }
+        return userInfo;
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -29,5 +30,16 @@ public class PermissionServiceImpl implements PermissionService {
         return permissionMapper.insertPermission(permission);
     }
 
+
+    @Override
+    public List<PermissionPO> listPermissionByPermissionKeys(Set<String> permissionKeys) {
+        return permissionMapper.listPermissionByPermissionKeys(permissionKeys);
+    }
+
+
+    @Override
+    public PermissionPO getPermissionByPermissionKey(String permissionKey) {
+        return permissionMapper.getPermissionByPermissionKey(permissionKey);
+    }
 
 }

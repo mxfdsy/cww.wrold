@@ -10,7 +10,7 @@ import java.util.Set;
 
 public interface PermissionService {
 
-//    List<PermissionPO> listPermissionByPermissionKeys(Set<String> permissionKeys);
+    List<PermissionPO> listPermissionByPermissionKeys(Set<String> permissionKeys);
 
     List<PermissionPO> listPermissionByParentMenuIds(List<Integer> moduleids);
 

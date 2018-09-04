@@ -14,6 +14,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -64,4 +65,11 @@ public class RolePermissionServiceImpl implements RolePermissionService {
         return rolePermissionMapper.deleteByRoleUid(roleUid);
     }
 
+    @Override
+    public Set<String> listUserRolePermissionKey(List<String> roleUids) {
+        if(CollectionUtils.isEmpty(roleUids)){
+            return Collections.emptySet();
+        }
+        return rolePermissionMapper.listUserRolePermissionKey(roleUids);
+    }
 }

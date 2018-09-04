@@ -15,4 +15,6 @@ public interface RolePermissionService {
     boolean insertRolePermission(String roleUid, EditRoleRequestDTO request);
 
     int deleteByRoleUid(String roleUid);
+
+    Set<String> listUserRolePermissionKey(List<String> roleUids);
 }

@@ -8,7 +8,8 @@ import cww.world.pojo.dto.menu.*;
 import cww.world.pojo.dto.role.EditRoleRequestDTO;
 import cww.world.pojo.po.menu.MenuPO;
 import cww.world.pojo.po.menu.PermissionPO;
-import cww.world.pojo.po.role.RolePermissionPO;
+import cww.world.pojo.po.role.RolePO;
+import cww.world.pojo.vo.MenuVO;
 import cww.world.service.menu.MenuService;
 import cww.world.service.menu.PermissionService;
 import cww.world.service.menu.RolePermissionService;
@@ -22,10 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -236,6 +234,50 @@ public class MenuServiceImpl implements MenuService {
             menuDTOS.add(menuDTO);
         }
         return menuDTOS;
+    }
+
+
+    @Override
+    public List<MenuVO> listMenuByPermissionKeys(Set<String> permissionKeys) {
+        List<PermissionPO> permissions = permissionService.listPermissionByPermissionKeys(permissionKeys);
+        if(CollectionUtils.isEmpty(permissions)){
+            return Collections.emptyList();
+        }
+
+        List<Integer> moduleIds = permissions
+                .stream()
+                .map(permission -> permission.getParentMenuId())
+                .distinct()
+                .collect(Collectors.toList());
+        List<Integer> menuIds = permissions
+                .stream()
+                .map(permission -> permission.getMenuId())
+                .distinct()
+                .collect(Collectors.toList());
+        moduleIds.addAll(menuIds);
+
+        List<MenuPO> moduleAndMenus = menuMapper.listMenuByIds(moduleIds);
+        if(CollectionUtils.isEmpty(moduleAndMenus)){
+            return Collections.emptyList();
+        }
+
+        List<MenuVO> resultMenu = new ArrayList<>();
+        for(MenuPO moduleOrMenu : moduleAndMenus){
+            MenuVO menu = new MenuVO();
+            BeanUtils.copyProperties(moduleOrMenu, menu);
+            resultMenu.add(menu);
+        }
+        return resultMenu;
+    }
+
+
+    @Override
+    public void addPermissionToRole(String roleKey, String permissionKey) {
+        RolePO rolePO = roleService.searchRoleByUidOrKey(null, roleKey);
+        EditRoleRequestDTO editRoleRequestDTO = new EditRoleRequestDTO();
+        PermissionPO permissionPO = permissionService.getPermissionByPermissionKey(permissionKey);
+        editRoleRequestDTO.setPermissionUids(Arrays.asList(permissionPO.getPermissionUid()));
+        rolePermissionService.insertRolePermission(rolePO.getRoleUid(), editRoleRequestDTO);
     }
 
 

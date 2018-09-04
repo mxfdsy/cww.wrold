@@ -13,7 +13,8 @@ public class Constants {
     public static final String SUCCESS = "success";
     /*************************** session ****************************/
     public static final String USER_INFO = "user_info";
-    public static final String SYSTEM_ADMIN_KEY = "sys_admin_key";
-
-
+    public static final String SYSTEM_ADMIN_KEY = "role01";
+    public static final String PARENT_MENU_MAP = "father_menu_map";
+    public static final String CHILDREN_MENU_MAP = "children_menu_map";
+    public static final String MENU = "login_user_menu";
 }

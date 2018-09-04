@@ -25,6 +25,9 @@ public enum BaseCode {
 
     ROLE_IS_NOT_EXIST_ERROR(25004,"角色不存在"),
 
+    MENU_DO_NOT_EXIST(12002, "菜单不存在"),
+
+
     INVALID_ARGUMENT(11001, "请求参数错误");
 
     private int code;
