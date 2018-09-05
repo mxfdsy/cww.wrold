@@ -11,7 +11,8 @@ import org.springframework.context.annotation.ImportResource;
 @SpringBootApplication
 @MapperScan(basePackages = "cww.world.mapper")
 @ImportResource(value = {
-        "classpath:META-INF/mybatis/*.xml"
+        "classpath:META-INF/mybatis/*.xml",
+        "classpath:META-INF/rabbitmq/*.xml"
 })
 public class myApplication {
     public static void main(String[] args) {

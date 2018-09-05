@@ -1,27 +1,23 @@
 package cww.world.controller.user;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import cww.world.common.constant.BaseCode;
 import cww.world.common.constant.Constants;
 import cww.world.common.exception.BaseException;
-import cww.world.common.interceptor.annotation.HasPermission;
 import cww.world.common.util.ResultBuilderUtils;
 import cww.world.common.validate.EntityValidator;
 import cww.world.common.validate.ValidateResult;
 import cww.world.common.validate.group.Update;
 import cww.world.pojo.dto.GridPage;
-import cww.world.pojo.dto.PageableRequestDTO;
 import cww.world.pojo.dto.user.ListUserDTO;
 import cww.world.pojo.dto.user.UpdateUserStatusRequestDTO;
-import cww.world.pojo.dto.user.UserInfoListRequestDTO;
 import cww.world.pojo.po.user.UserPO;
 import cww.world.service.user.UserService;
-import org.apache.catalina.User;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +32,11 @@ import java.util.List;
 public class UserController {
     @Autowired
     UserService userService;
+
+    @Autowired
+    @Qualifier("test_send_channel")
+    private MessageChannel testMessageChannel;
+
 
 
     @RequestMapping(value = "/layout/index.html",method = RequestMethod.GET)
@@ -60,6 +61,7 @@ public class UserController {
     public String getUserList(@RequestBody String payload){
         ListUserDTO listUserDTO = JSON.parseObject(payload, ListUserDTO.class);
         List<UserPO> userPOS = userService.userList(listUserDTO);
+        testMessageChannel.send(MessageBuilder.withPayload("收到").build());
         return ResultBuilderUtils.buildSuccess(new GridPage<>(userPOS.size(),userPOS));
     }
 
