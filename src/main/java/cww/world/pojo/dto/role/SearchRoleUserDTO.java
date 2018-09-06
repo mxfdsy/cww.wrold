@@ -1,10 +1,8 @@
 package cww.world.pojo.dto.role;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import cww.world.common.validate.group.Insert;
 import cww.world.pojo.dto.PageableRequestDTO;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * Created by xf on 2018/6/4.
