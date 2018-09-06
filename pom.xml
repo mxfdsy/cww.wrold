@@ -89,6 +89,7 @@
             <!--<groupId>org.springframework.session</groupId>-->
             <!--<artifactId>spring-session-data-redis</artifactId>-->
         <!--</dependency>-->
+        <!--aop-->
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
