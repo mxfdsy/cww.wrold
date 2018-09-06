@@ -16,15 +16,12 @@ public class UpdateMenuRequestDTO extends BaseDTO {
     private Integer menuId;
 
     @JSONField(name = "skip_url")
-    @NotBlank(message = "缺少跳转链接", groups = {Integer.class})
     private String skipUrl;
 
     @JSONField(name = "name")
-    @NotBlank(message = "缺少名称", groups = {Integer.class})
     private String name;
 
     @JSONField(name = "sort")
-    @NotBlank(message = "缺少排序", groups = {Integer.class})
     private Integer sort;
 
     public Integer getMenuId() {

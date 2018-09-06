@@ -24,15 +24,12 @@ public class ModuleOperationTraceMessageDTO {
     @JSONField(name = "new_data")
     private String newData;
 
-    @NotBlank(message = "处理类名字不能为空",  groups = { Insert.class })
     @JSONField(name = "handler_service_name")
     private String handlerServiceName;
 
-    @NotBlank(message = "操作类型不能为空",  groups = { Insert.class })
     @JSONField(name = "operation_type")
     private String operationType;
 
-    @NotBlank(message = "操作人uid不能为空",  groups = { Insert.class })
     @JSONField(name = "operation_user_uid")
     private String operatorUserUid;
 

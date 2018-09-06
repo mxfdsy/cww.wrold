@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]>
+<html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--<![endif]-->
+
+<head>
+    <meta th:remove="tag" th:include="fragments/head">
+    <title>审核流程配置</title>
+</head>
+
+<body class="layui-layout-body layadmin-tabspage-none">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header" th:include="fragments/header"></div>
+
+    <div class="layui-side layui-side-menu" th:include="fragments/nav-bar-side"></div>
+
+    <div class="layui-body" id="LAY_BODY">
+        <div class="layui-card layadmin-header">
+            <div class="layui-breadcrumb">
+
+                <a><cite>主页</cite></a>
+                <span lay-separator="">/</span>
+
+                <a><cite>系统管理</cite></a>
+                <span lay-separator="">/</span>
+
+                <a href="/workflow/layout/index.html">审核流程配置</a>
+            </div>
+        </div>
+
+
+        <div class="layui-fluid">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-card">
+
+                    <div class="layui-card-header">
+                        <div class="layui-card-title">审核流程配置</div>
+                    </div>
+
+                    <div class="layui-card-body">
+
+                        <div class="layui-table-toolbox layui-clear">
+                            <div class="layui-btn-container">
+                                <a class="layui-btn layui-btn-sm" lmf:anyPower="erp_workflow_config_add"
+                                   href="/workflow/add.html">新建审核流</a>
+                            </div>
+
+                            <div class="layui-table-setting layui-btn-group">
+                                <button class="layui-btn layui-btn-primary layui-btn-sm setting"  lay-tips="自定义列表项"
+                                        lay-filter="setting">
+                                    <i class="layui-icon">&#xe716;</i></button>
+                            </div>
+                        </div>
+
+                        <table class="layui-hide" id="workflowManageTable" lay-filter="operate"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 辅助元素，一般用于移动设备下遮罩 -->
+    <div class="layadmin-body-shade" layadmin-event="shade"></div>
+</div>
+
+<footer>
+    <div th:remove="tag" th:include="fragments/footer"></div>
+    <script id="operateTemplate" type="text/html">
+        <a href="/workflow/{{d.workflow_uid}}/view.html" lmf:anyPower="erp_workflow_config_view" class="split-line">查看</a>
+        <a href="/workflow/{{d.workflow_uid}}/edit.html" lmf:anyPower="erp_workflow_config_update" class="split-line">修改</a>
+        <a href="JavaScript:void(0);" lmf:anyPower="erp_workflow_config_delete" class="split-line"
+           lay-event="workflow_delete">删除</a>
+    </script>
+    <script type="text/javascript" th:src="@{/scripts/pages/workflow/index.js?20180607}"></script>
+</footer>
+</body>
+</html>

@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class UpdateUserStatusRequestDTO {
 
-   @NotBlank
+
    @JSONField(name = "status")
     private String status;
 

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]>
+<html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--<![endif]-->
+
+<head>
+    <meta th:remove="tag" th:include="fragments/head">
+    <title>查看审核流</title>
+</head>
+
+<body class="layui-layout-body layadmin-tabspage-none">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header" th:include="fragments/header"></div>
+
+    <div class="layui-side layui-side-menu" th:include="fragments/nav-bar-side"></div>
+
+    <div class="layui-body">
+
+        <div class="layui-card layadmin-header">
+            <div class="layui-breadcrumb">
+
+                <a>主页</a>
+                <span lay-separator="">/</span>
+
+                <a href="/workflow/layout/index.html">审核流程配置</a>
+                <span lay-separator="">/</span>
+
+                <a>查看审核流</a>
+
+            </div>
+        </div>
+
+        <div class="layui-fluid">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        查看审核流
+                    </div>
+                    <div class="layui-card-body">
+                        <form class="layui-form" lay-filter="form-info" action="">
+                            <blockquote class="layui-elem-quote">审核流</blockquote>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label"><span style="color: #ff0000">*</span>审核流KEY</label>
+                                <div class="layui-input-view">
+                                    <div class="layui-input-block " th:text="${workflow.workflowKey}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">审核流名称</label>
+                                <div class="layui-input-view">
+                                    <div class="layui-input-block " th:text="${workflow.workflowName}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item layui-form-text">
+                                <label class="layui-form-label">审核流描述</label>
+                                <div class="layui-input-view">
+                                    <div class="layui-input-block layui-input-lg">
+                                        <textarea class="layui-textarea" th:text="${workflow.workflowDesc}"
+                                                  disabled></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <blockquote class="layui-elem-quote">审核步骤</blockquote>
+
+                            <div class="layui-form-item step-container">
+                                <div class="layui-row layui-inline step-item"
+                                     th:each="step:${workflow.workflowStepPOs}">
+                                    <label class="layui-form-label">步骤:</label>
+                                    <div class="layui-input-inline" style="width: 50px">
+                                        <input type="text" th:value="${step.step}" class="layui-input"
+                                               layui-verify="required|n">
+                                    </div>
+                                    <!--<label class="layui-form-label">步骤描述</label>-->
+                                    <div class="layui-input-inline">
+                                        <input type="text" th:value="${step.stepDesc}" class="layui-input" disabled>
+                                    </div>
+                                    <!--<label class="layui-form-label">审核级别</label>-->
+                                    <div class="layui-input-inline">
+                                        <select name="workflow_step[0][approval_level]" disabled>
+                                            <option value="TYP_GROUP" th:selected="${step.approvalLevel == 'TYP_GROUP'}">集团</option>
+                                            <option value="TYP_MALL" th:selected="${step.approvalLevel == 'TYP_MALL'}">商业项目</option>
+                                        </select>
+                                    </div>
+                                    <!--<label class="layui-form-label">审核组类型</label>-->
+                                    <div class="layui-input-inline">
+                                        <select name="workflow_step[0][approval_group_type]" disabled>
+                                            <option value="TYP_INDIVIDUAL"
+                                                    th:selected="${step.approvalGroupType == 'TYP_INDIVIDUAL'}">个人
+                                            </option>
+                                            <option value="TYP_ROLE"
+                                                    th:selected="${step.approvalGroupType == 'TYP_ROLE'}">角色
+                                            </option>
+                                            <option value="TYP_DEPARTMENT"
+                                                    th:selected="${step.approvalGroupType == 'TYP_DEPARTMENT'}">部门
+                                            </option>
+                                            <option value="TYP_COMBINATION"
+                                                    th:selected="${step.approvalGroupType == 'TYP_COMBINATION'}">组合
+                                            </option>
+                                            <!--<option value="TYP_SUBMITTER_LINE_MANAGER ">提交人直属领导</option>-->
+                                        </select>
+                                    </div>
+                                    <!--<label class="layui-form-label">审核组</label>-->
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="approval_group" class="layui-input"
+                                               th:value="${step.approvalGroupName}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 辅助元素，一般用于移动设备下遮罩 -->
+    <div class="layadmin-body-shade" layadmin-event="shade"></div>
+</div>
+<footer>
+    <div th:remove="tag" th:include="fragments/footer"></div>
+</footer>
+</body>
+</html>
+
+<script type="text/javascript" th:src="@{/scripts/pages/workflow/view.js?201806110950}"></script>

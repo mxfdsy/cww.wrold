@@ -15,16 +15,13 @@ public class EditRoleRequestDTO {
     
     @JSONField(name = "role_id")
     private String roleId;
-    @NotBlank(message = "role_uid不能为空" , groups = {Update.class})
     @JSONField(name = "role_uid")
     private String roleUid;
 
     @JSONField(name = "role_key")
     private String roleKey;
-    @NotBlank(message = "role_name不能为空", groups = {Insert.class, Update.class})
     @JSONField(name = "role_name")
     private String roleName;
-    @NotBlank(message = "role_desc不能为空", groups = {Insert.class, Update.class})
     @JSONField(name = "role_desc")
     private String roleDesc;
 

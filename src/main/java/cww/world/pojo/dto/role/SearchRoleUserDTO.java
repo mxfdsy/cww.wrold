@@ -16,7 +16,6 @@ public class SearchRoleUserDTO extends PageableRequestDTO {
     @JSONField(name = "name")
     private String name;
     @JSONField(name = "role_uid")
-    @NotBlank(message = "role_uid不能为空", groups = {Insert.class})
     private String roleUid;
     @JSONField(name = "memo")
     private String memo;

@@ -11,7 +11,6 @@ import org.hibernate.validator.constraints.NotBlank;
  */
 public class ListProgramInfoRequestDTO extends PageableRequestDTO {
     @JSONField(name = "role_uid")
-    @NotBlank(message = "缺少角色uid", groups = {Select.class})
     private String roleUid;
 
     @JSONField(name = "program_name")

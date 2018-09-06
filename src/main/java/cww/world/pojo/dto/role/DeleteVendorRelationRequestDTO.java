@@ -12,14 +12,12 @@ import java.util.List;
  */
 public class DeleteVendorRelationRequestDTO {
     @JSONField(name = "vendor_mall_user_uid")
-    @NotBlank(message = "缺少商户MallUserUid", groups = {Insert.class})
     private String vendorMallUserUid;
 
     @JSONField(name = "guide_mall_user_uids")
     private List<String> guideMallUserUids;
 
     @JSONField(name = "mall_uid")
-    @NotBlank(message = "缺少mallUid", groups = {Insert.class})
     private String mallUid;
 
     public String getVendorMallUserUid() {
