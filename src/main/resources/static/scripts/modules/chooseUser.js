@@ -12,7 +12,7 @@ layui.define(['lmfTable', 'form'], function (exports) {
         '<div class="layui-inline">' +
         '</div>' +
         '<div class="layui-col-sm3 layui-inline">' +
-        '     <input type="text" name="name" style="margin-left: 20px" autocomplete="true" placeholder="请输入员工姓名" maxlength="40" class="layui-input">' +
+        '     <input type="text" name="loginName" style="margin-left: 20px" autocomplete="true" placeholder="请输入员工姓名" maxlength="40" class="layui-input">' +
         '</div>' +
         '<div class="layui-inline">' +
         ' <div class="layui-input-inline" style="margin-left: 20px">' +
@@ -86,20 +86,20 @@ layui.define(['lmfTable', 'form'], function (exports) {
         var table_events = {};
         var table_cols = [
             {
-                field: 'login_name',
+                field: 'loginName',
                 title: '登陆账号',
                 width: '200',
                 align: 'left'
             },
             {
-                field: 'name',
+                field: 'userName',
                 title: '员工姓名',
                 width: '120',
                 align: 'left'
             },
             {
-                field: 'role_names',
-                title: '角色',
+                field: 'gender',
+                title: '性別',
                 width: '207',
                 align: 'left'
             },
@@ -113,21 +113,21 @@ layui.define(['lmfTable', 'form'], function (exports) {
 
         if (that.config.isMultiple) {
             table_cols.unshift({
-                field: 'user_uid',
+                field: 'userUid',
                 title: 'id选择',
                 fixed: 'left',
                 checkbox: true
             });
         } else {
             table_cols.push({
-                field: 'user_uid',
+                field: 'userUid',
                 title: '操作(单选)',
                 valign: 'middle',
                 width: '100',
                 fixed: 'right',
                 undraggable: true,
                 templet: function (d) {
-                    if ($.inArray(d.user_uid, that.config.excludeUIDs) > -1) {
+                    if ($.inArray(d.userUid, that.config.excludeUIDs) > -1) {
                         return '已选取'
                     }
                     return '<a href="javascript:;" lay-event="single-choose">选取</a>';
@@ -146,7 +146,7 @@ layui.define(['lmfTable', 'form'], function (exports) {
             elem: '#' + TABLE_NAME,
             searchFilter: TABLE_NAME + '-search-box',    //必传
             tableFilter: TABLE_NAME,
-            url: '/user/listUserInfo',
+            url: '/user/getUserList',
             page: true,
             where: where,
             height: 480,

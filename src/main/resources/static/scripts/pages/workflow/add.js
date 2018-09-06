@@ -23,8 +23,8 @@ layui.use(['form', 'layer', 'lmfEvent', 'laytpl', 'chooseRole', 'chooseUser', 'c
                         return false;
                     }
                     var user = obj.data[0];
-                    $stepItem.find(".approval_group_value").val(user.user_uid);
-                    $stepItem.find(".approval_group_name").val(user.name);
+                    $stepItem.find(".approval_group_value").val(user.userUid);
+                    $stepItem.find(".approval_group_name").val(user.loginName);
                 }
             })
         },

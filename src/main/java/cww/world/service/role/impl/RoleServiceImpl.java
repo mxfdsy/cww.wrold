@@ -100,7 +100,7 @@ public class RoleServiceImpl extends BaseController implements RoleService {
         //查询对应的角色信息
         RolePO role = roleMapper.queryRoleByUidOrKey(request.getRoleUid(), request.getRoleKey());
 //        if(null == role){
-//            logger.error("无法根据UID或者KEY查询到对应的角色，请求参数:{}", FastJsonUtils.toJSONString(request));
+//            logger.error("无法根据UID或者KEY查询到对应的角色，请求参数:{}", JSON.toJSONString(request));
 //            throw new BaseException(BaseCode.NO_SUCH_ROLE_NAME_PERMISSION, "无法根据UID或者KEY查询到对应的角色");
 //        }
         //校验是否有关联用户
@@ -109,7 +109,7 @@ public class RoleServiceImpl extends BaseController implements RoleService {
 //        }
         //校验该角色是否能被删除
 //        if(ROLE_UNCHANGEABLE.equals(role.getIsChangeable())){
-//            logger.error("该角色被设定为无法删除，请求参数:{}", FastJsonUtils.toJSONString(request));
+//            logger.error("该角色被设定为无法删除，请求参数:{}", JSON.toJSONString(request));
 //            throw new BaseException(BaseCode.NO_SUCH_ROLE_NAME_PERMISSION, "该角色被设定为无法删除");
 //        }
 

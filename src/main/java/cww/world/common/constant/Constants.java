@@ -11,10 +11,13 @@ public class Constants {
     public static final String LAST_REDIRECT_URL = "last_redirect_url";
     public static final String REDIRECT_URL = "redirect_url";
     public static final String SUCCESS = "success";
+    public static final int SUCCESS_CODE = 200;
     /*************************** session ****************************/
     public static final String USER_INFO = "user_info";
     public static final String SYSTEM_ADMIN_KEY = "role01";
     public static final String PARENT_MENU_MAP = "father_menu_map";
     public static final String CHILDREN_MENU_MAP = "children_menu_map";
     public static final String MENU = "login_user_menu";
+    public static final String USER_UID = "login_user_uid";
+    public static final String SYSTEM_UID = "10000000000000001";
 }

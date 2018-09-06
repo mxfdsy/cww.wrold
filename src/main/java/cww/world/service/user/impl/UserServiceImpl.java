@@ -76,6 +76,7 @@ public class UserServiceImpl implements UserService {
         session.setAttribute(Constants.CHILDREN_MENU_MAP, childrenMenuMap);
         session.setAttribute(Constants.PARENT_MENU_MAP, parentMenuMap);
         session.setAttribute(Constants.USER_INFO, loginUser);
+        session.setAttribute(Constants.USER_UID, loginUser.getUserUid());
 
 
 

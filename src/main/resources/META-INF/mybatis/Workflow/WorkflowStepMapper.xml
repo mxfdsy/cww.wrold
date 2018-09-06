@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cww.world.mapper.workflow.WorkflowStepMapper">
+    <resultMap id="listWorkflowStepsResultMap" type="cww.world.pojo.po.workflow.WorkflowStepPO">
+        <result property="stepUid" column="step_uid"/>
+        <result property="workflowUid" column="step_workflow_uid"/>
+        <result property="step" column="step"/>
+        <result property="approvalLevel" column="approval_level"/>
+        <result property="approvalGroupType" column="approval_group_type"/>
+        <result property="approvalGroup" column="approval_group"/>
+        <result property="approvalGroupName" column="approval_group_name"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="updatedBy" column="updated_by"/>
+    </resultMap>
+
+    <select id="listWorkflowSteps" resultMap="listWorkflowStepsResultMap">
+        SELECT
+            workflowStep.step_uid,
+            workflowStep.workflow_uid as step_workflow_uid,
+            workflowStep.step,
+            workflowStep.approval_level,
+            workflowStep.approval_group_type,
+            workflowStep.approval_group,
+            workflowStep.approval_group_name,
+            workflowStep.updated_by,
+            workflowStep.updated_at,
+            workflowStep.created_by,
+            workflowStep.created_at
+        FROM
+            tnt_biz_erp_workflow_step workflowStep
+        WHERE
+            workflowStep.archive = 1
+            AND workflowStep.workflow_uid = #{workflowUid}
+        ORDER BY
+            workflowStep.created_at DESC
+    </select>
+    <select id="getWorkflowStepByUid" resultMap="listWorkflowStepsResultMap">
+        SELECT workflowStep.step_uid,
+               workflowStep.workflow_uid as step_workflow_uid,
+               workflowStep.step,
+               workflowStep.approval_level,
+               workflowStep.approval_group_type,
+               workflowStep.approval_group,
+               workflowStep.approval_group_name,
+               workflowStep.updated_by,
+               workflowStep.updated_at,
+               workflowStep.created_by,
+               workflowStep.created_at
+        FROM tnt_biz_erp_workflow_step workflowStep
+        WHERE workflowStep.archive = 1
+          AND workflowStep.step_uid = #{workflowStepUid}
+    </select>
+
+    <insert id="insertWorkflowStep" parameterType="cww.world.pojo.po.workflow.WorkflowStepPO">
+        INSERT INTO tnt_biz_erp_workflow_step
+        (step_uid, workflow_uid, step, approval_level, approval_group_type, approval_group, approval_group_name,
+         created_at, created_by, updated_at, updated_by)
+        VALUES
+            (tnt_uuid_short(), #{workflowUid}, #{step}, #{approvalLevel}, #{approvalGroupType}, #{approvalGroup},
+                #{approvalGroupName},
+             now(), '', now(), '')
+    </insert>
+
+    <insert id="batchInsertWorkflowStep">
+        INSERT INTO tnt_biz_erp_workflow_step
+        (step_uid, workflow_uid, step,step_desc, approval_level, approval_group_type, approval_group,
+        approval_group_name,
+        created_at, created_by, updated_at, updated_by)
+        VALUES
+        <foreach collection="workflowStepPOs" item="workflowStepPO" separator=",">
+            (tnt_uuid_short(), #{workflowStepPO.workflowUid}, #{workflowStepPO.step},#{workflowStepPO.stepDesc},
+            #{workflowStepPO.approvalLevel},
+            #{workflowStepPO.approvalGroupType}, #{workflowStepPO.approvalGroup},#{workflowStepPO.approvalGroupName},
+            now(), #{workflowStepPO.createdBy}, now(), #{workflowStepPO.updatedBy})
+        </foreach>
+    </insert>
+
+    <update id="updateWorkflowStep" parameterType="cww.world.pojo.po.workflow.WorkflowStepPO">
+        UPDATE tnt_biz_erp_workflow_step
+        <set>
+            <if test="step != null and step != ''">
+                step = #{step},
+            </if>
+            <if test="approvalLevel != null and approvalLevel != ''">
+                approval_level = #{approvalLevel},
+            </if>
+            <if test="approvalGroupType != null and approvalGroupType != ''">
+                approval_group_type = #{approvalGroupType},
+            </if>
+            <if test="approvalGroup != null and approvalGroup != ''">
+                approval_group = #{approvalGroup},
+            </if>
+            <if test="approvalGroupName != null and approvalGroupName != ''">
+                approval_group_name = #{approvalGroupName},
+            </if>
+            updated_at = now()
+        </set>
+        WHERE step_uid = #{stepUid}
+    </update>
+
+    <delete id="deleteWorkflowSteps">
+        delete from
+            tnt_biz_erp_workflow_step
+        WHERE workflow_uid = #{workflowUid}
+    </delete>
+
+    <delete id="deleteWorkflowStep">
+        delete from
+            tnt_biz_erp_workflow_step
+        WHERE step_uid = #{stepUid}
+    </delete>
+</mapper>

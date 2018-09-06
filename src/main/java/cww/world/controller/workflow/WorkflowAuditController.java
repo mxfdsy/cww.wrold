@@ -5,7 +5,7 @@
 //import com.lmfun.common.constant.enumeration.workflow.AuditOperationEnum;
 //import com.lmfun.common.constant.enumeration.workflow.AuditStatusEnum;
 //import com.lmfun.common.exception.BaseException;
-//import com.lmfun.common.util.FastJsonUtils;
+//import com.lmfun.common.util.JSON;
 //import com.lmfun.common.util.ResultBuilderUtils;
 //import com.lmfun.common.util.SessionGetter;
 //import com.lmfun.common.util.StringUtils;
@@ -46,7 +46,7 @@
 //    public String auditOperation(@RequestBody String payload) {
 //        String currentUserUid = SessionGetter.getLoginUserUid();
 //        logger.warn("{}用户进行审核操作，payload = {}", currentUserUid, payload);
-//        AuditOperationDTO auditOperationDTO = FastJsonUtils.toBean(payload, AuditOperationDTO.class);
+//        AuditOperationDTO auditOperationDTO = JSON.toBean(payload, AuditOperationDTO.class);
 //        auditOperationDTO.setAuditorUserUid(currentUserUid);
 //        ValidateResult validateResult = EntityValidator.validate(auditOperationDTO);
 //        if (validateResult.hasError()) {
@@ -103,7 +103,7 @@
 //    @ResponseBody
 //    @RequestMapping(value = "/applied", method = RequestMethod.POST, produces = JSON_UTF8)
 //    public String myApplied(@RequestBody String payload) {
-//        BusinessAuditConditionDTO condition = FastJsonUtils.toBean(payload, BusinessAuditConditionDTO.class);
+//        BusinessAuditConditionDTO condition = JSON.toBean(payload, BusinessAuditConditionDTO.class);
 //        condition.setApplyUserUid(SessionGetter.getLoginUserUid());
 //        GridPage<MyApproveDTO> result = businessAuditService.findMyAppliedListByCondition(condition);
 //        return ResultBuilderUtils.buildSuccess(result);
@@ -117,7 +117,7 @@
 //    @ResponseBody
 //    @RequestMapping(value = "/approve", method = RequestMethod.POST, produces = JSON_UTF8)
 //    public String myApprove(@RequestBody String payload) {
-//        BusinessAuditConditionDTO condition = FastJsonUtils.toBean(payload, BusinessAuditConditionDTO.class);
+//        BusinessAuditConditionDTO condition = JSON.toBean(payload, BusinessAuditConditionDTO.class);
 //        condition.setApplyUserUid(SessionGetter.getLoginUserUid());
 //        GridPage<MyApproveDTO> result = businessAuditService.findMyApproveListByCondition(condition);
 //        return ResultBuilderUtils.buildSuccess(result);

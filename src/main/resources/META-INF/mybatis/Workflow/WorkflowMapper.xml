@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cww.world.mapper.workflow.WorkflowMapper">
+    <resultMap id="listWorkflowResultMap" type="cww.world.pojo.po.workflow.WorkflowPO">
+        <result property="workflowUid" column="workflow_uid"/>
+        <result property="workflowKey" column="workflow_key"/>
+        <result property="workflowName" column="workflow_name"/>
+        <result property="workflowDesc" column="workflow_desc"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="updatedBy" column="updated_by"/>
+    </resultMap>
+
+    <sql id="searchCriteria">
+
+    </sql>
+    <select id="countSearchWorkflows" resultType="_int"
+            parameterType="cww.world.pojo.dto.workflow.SearchWorkflowDTO">
+        select count(*) from tnt_biz_erp_workflow_info
+        <where>
+            archive = 1
+            <include refid="searchCriteria"/>
+        </where>
+    </select>
+    <select id="listSearchWorkflows" resultMap="listWorkflowResultMap">
+        SELECT
+        workflow.workflow_uid, workflow.workflow_key, workflow.workflow_name, workflow.workflow_desc,
+        workflow.updated_by,workflow.updated_at,workflow.created_by,workflow.created_at
+        FROM
+        tnt_biz_erp_workflow_info workflow
+        <where>
+            workflow.archive = 1
+            <include refid="searchCriteria"/>
+        </where>
+        <if test="sortKey != null and sortOrder != null">
+            ORDER BY workflow.${sortKey} ${sortOrder}
+        </if>
+        <if test="pageNo != null and pageSize != null">
+            limit #{pageOffset},#{pageSize}
+        </if>
+    </select>
+
+    <resultMap id="workflowResultMap" type="cww.world.pojo.po.workflow.WorkflowPO">
+        <result property="workflowUid" column="workflow_uid"/>
+        <result property="workflowKey" column="workflow_key"/>
+        <result property="workflowName" column="workflow_name"/>
+        <result property="workflowDesc" column="workflow_desc"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="updatedBy" column="updated_by"/>
+
+        <collection property="workflowStepPOs" ofType="cww.world.pojo.po.workflow.WorkflowStepPO">
+            <result property="stepUid" column="step_uid"/>
+            <result property="workflowUid" column="step_workflow_uid"/>
+            <result property="step" column="step"/>
+            <result property="stepDesc" column="step_desc"/>
+            <result property="approvalLevel" column="approval_level"/>
+            <result property="approvalGroupType" column="approval_group_type"/>
+            <result property="approvalGroup" column="approval_group"/>
+            <result property="approvalGroupName" column="approval_group_name"/>
+            <result property="createdAt" column="step_created_at"/>
+            <result property="createdBy" column="step_created_by"/>
+            <result property="updatedAt" column="step_updated_at"/>
+            <result property="updatedBy" column="step_updated_by"/>
+        </collection>
+    </resultMap>
+    <select id="getByWorkflowUid" resultMap="workflowResultMap">
+        SELECT
+            info.workflow_uid,
+            info.workflow_key,
+            info.workflow_name,
+            info.workflow_desc,
+            info.created_at,
+            info.created_by,
+            info.updated_at,
+            info.updated_by,
+            step.step_uid,
+            step.workflow_uid as step_workflow_uid,
+            step.step,
+            step.step_desc,
+            step.approval_level,
+            step.approval_group_type,
+            step.approval_group,
+            step.approval_group_name,
+            step.created_at   as step_created_at,
+            step.created_by   as step_created_by,
+            step.updated_at   as step_updated_at,
+            step.updated_by   as step_updated_by
+        FROM
+            tnt_biz_erp_workflow_info info
+            LEFT JOIN
+            tnt_biz_erp_workflow_step step ON info.workflow_uid = step.workflow_uid
+                                              AND step.archive = 1
+        WHERE
+            info.workflow_uid = #{workflowUid}
+            AND info.archive = 1
+        ORDER BY step.step;
+    </select>
+    <select id="getByWorkflowKey" resultMap="workflowResultMap">
+        SELECT
+            info.workflow_uid,
+            info.workflow_key,
+            info.workflow_name,
+            info.workflow_desc,
+            info.created_at,
+            info.created_by,
+            info.updated_at,
+            info.updated_by,
+            step.step_uid,
+            step.workflow_uid as step_workflow_uid,
+            step.step,
+            step.step_desc,
+            step.approval_level,
+            step.approval_group_type,
+            step.approval_group,
+            step.created_at   as step_created_at,
+            step.created_by   as step_created_by,
+            step.updated_at   as step_updated_at,
+            step.updated_by   as step_updated_by
+        FROM
+            tnt_biz_erp_workflow_info info
+            LEFT JOIN
+            tnt_biz_erp_workflow_step step ON info.workflow_uid = step.workflow_uid
+                                              AND step.archive = 1
+        WHERE
+            info.workflow_key = #{workflowKey}
+            AND info.archive = 1
+        ORDER BY step.step;
+    </select>
+
+    <insert id="addWorkflow" parameterType="cww.world.pojo.po.workflow.WorkflowPO">
+        <selectKey keyProperty="workflowUid" statementType="STATEMENT" order="BEFORE" resultType="java.lang.String">
+            select tnt_uuid_short()
+        </selectKey>
+        INSERT INTO tnt_biz_erp_workflow_info
+        (workflow_uid, workflow_key, workflow_name, workflow_desc,
+        created_at, created_by, updated_at, updated_by)
+        VALUES
+        (#{workflowUid}, #{workflowKey}, #{workflowName}, #{workflowDesc},
+        now(), #{createdBy}, now(), #{updatedBy})
+    </insert>
+
+    <update id="updateWorkflow" parameterType="cww.world.pojo.dto.workflow.UpdateWorkflowDTO">
+        UPDATE tnt_biz_erp_workflow_info
+        <set>
+            <if test="workflowName != null and workflowName != ''">
+                workflow_name = #{workflowName},
+            </if>
+            <if test="workflowDesc != null and workflowDesc != ''">
+                workflow_desc = #{workflowDesc},
+            </if>
+
+            <if test="updatedBy != null and updatedBy != ''">
+                updated_by = #{updatedBy},
+            </if>
+
+            updated_at = now()
+        </set>
+        WHERE workflow_uid = #{workflowUid}
+    </update>
+    <delete id="deleteWorkflowByWorkflowUid">
+        delete from tnt_biz_erp_workflow_info
+        where workflow_uid = #{workflowUid}
+    </delete>
+
+</mapper>
